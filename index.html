@@ -1,0 +1,683 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="theme-color" content="#0a2a5e"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><title>Rafael Market Terminal — 22/10/2026</title>
+<style>
+:root{--bg:#0a0f1e;--bg2:#101936;--hdr:rgba(10,15,30,.72);--card:#131b30;--card2:#18223d;--text:#f2f6fc;--muted:#8d9bb5;--line:#232f4d;--accent:#5b8dff;--accent2:#9b6bff;--up:#2dd47a;--down:#ff5f7e;--warn:#f5b84b;--shadow:0 10px 30px rgba(0,0,0,.35);--ease:cubic-bezier(.22,.8,.3,1)}
+:root[data-theme=light]{--bg:#f3f6fb;--bg2:#e6ecfb;--hdr:rgba(243,246,251,.78);--card:#fff;--card2:#f7f9fd;--text:#162038;--muted:#5c6b86;--line:#dbe3f0;--up:#0f9d58;--down:#d93654;--warn:#b7791f;--shadow:0 10px 28px rgba(40,60,110,.12)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 120px)}
+body{margin:0;color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(1000px 500px at 85% -10%,var(--bg2),transparent 60%),var(--bg);background-attachment:fixed;min-height:100%;transition:background-color .4s,color .4s;-webkit-font-smoothing:antialiased}
+:root{padding-bottom:env(safe-area-inset-bottom,0px)}
+header{position:sticky;top:0;z-index:10;background:var(--hdr);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);padding:calc(env(safe-area-inset-top,0px) + 12px) 16px 10px;border-bottom:1px solid transparent;transition:padding .3s var(--ease),border-color .3s,box-shadow .3s}
+header.scrolled{padding-top:calc(env(safe-area-inset-top,0px) + 6px);padding-bottom:6px;border-color:var(--line);box-shadow:var(--shadow)}
+.top{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:800;font-size:19px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}.brand i{font-style:normal;display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 6px 16px rgba(91,141,255,.45);transition:transform .4s var(--ease)}.brand:hover i{transform:rotate(-8deg) scale(1.08)}
+.brand small{display:block;font-weight:500;font-size:11px;color:var(--muted);letter-spacing:0}
+.actions{display:flex;gap:8px}
+button{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;padding:8px 12px;font:inherit;cursor:pointer;transition:transform .2s var(--ease),background .25s,border-color .25s,color .25s,box-shadow .25s}
+button:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 6px 16px rgba(91,141,255,.2)}button:active{transform:scale(.95)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.active{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff;box-shadow:0 6px 18px rgba(91,141,255,.4)}
+#refresh.spin{animation:spin .7s var(--ease)}
+.nav{max-width:1100px;margin:10px auto 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px}.nav::-webkit-scrollbar{display:none}
+.nav button{flex:0 0 auto;font-size:13px;padding:8px 14px;border-radius:999px;font-weight:600}
+.nav.sub{margin-top:4px;padding:6px 0 2px;border-top:1px dashed var(--line);animation:viewIn .4s var(--ease) both}.nav.sub[hidden]{display:none}
+.nav.sub button{font-size:12px;padding:6px 12px;font-weight:500;background:transparent}.nav.sub button.active{background:var(--accent);color:#fff;box-shadow:none}
+main{max-width:1100px;margin:auto;padding:18px 16px 60px}
+.view{display:none}.view.active{display:block;animation:viewIn .55s var(--ease) both}
+.view h2{margin:6px 0 2px;font-size:28px;letter-spacing:-.03em;font-weight:800}
+.date,.small,.label{color:var(--muted);font-size:12px}.date{margin-bottom:4px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 20px}.filters button{font-size:12.5px;padding:7px 14px;border-radius:999px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{position:relative;overflow:hidden;background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:16px 16px 14px;box-shadow:var(--shadow);animation:cardIn .6s var(--ease) both;animation-delay:calc(var(--i,0)*55ms);transition:transform .35s var(--ease),border-color .3s,box-shadow .35s}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--muted);opacity:.6;transition:width .3s var(--ease)}
+.card.k-up::before{background:var(--up)}.card.k-down::before{background:var(--down)}
+.card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 18px 40px rgba(91,141,255,.22)}.card:hover::before{width:7px}
+.label{text-transform:uppercase;letter-spacing:.07em;font-weight:700;font-size:11px}
+.value{font-size:23px;font-weight:800;letter-spacing:-.02em;margin:6px 0 4px;word-break:break-word}
+.up,.down,.neutral{font-weight:700;font-size:14px}.up{color:var(--up)}.down{color:var(--down)}.neutral{color:var(--muted)}
+.up::before{content:"▲ ";font-size:10px}.down::before{content:"▼ ";font-size:10px}
+.badge{display:inline-block;font-size:11px;color:var(--warn);border:1px solid var(--warn);border-radius:999px;padding:1px 8px;margin-top:8px;margin-right:4px}
+.desc{margin:8px 0 6px;color:var(--text);opacity:.85;line-height:1.5;font-size:13.5px}.empty{grid-column:1/-1;color:var(--muted);padding:40px;text-align:center}
+.news{grid-column:1/-1}.news .value{font-size:18px}
+@keyframes viewIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.chartcard{grid-column:1/-1;background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);animation:cardIn .6s var(--ease) both}
+.chartcard h3{margin:0;font-size:18px;letter-spacing:-.02em}.chartcard .sub{color:var(--muted);font-size:12px;margin:2px 0 12px}
+.ctabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.ctabs button{font-size:12px;padding:6px 12px;border-radius:999px}
+.chartwrap{position:relative}.chartwrap svg{width:100%;height:auto;display:block;overflow:visible}
+.gl{stroke:var(--line);stroke-width:1}.ax{fill:var(--muted);font-size:11px}
+.ln{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0;animation:draw 1.4s var(--ease) .15s both}
+.ar{animation:fadeA .9s ease .9s both}.dot{animation:fadeA .4s ease 1.3s both}
+.tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:12px;box-shadow:var(--shadow);opacity:0;transform:translate(-50%,-110%);transition:opacity .15s;white-space:nowrap;z-index:2}
+.leg{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;color:var(--muted);margin-top:8px}.leg span{white-space:nowrap}.leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}@keyframes fadeA{from{opacity:0}to{opacity:1}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.view h2{font-size:24px}}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.news{grid-column:auto}.view h2{font-size:34px}main{padding-top:28px}}
+@media(prefers-reduced-motion:reduce){*:not(.tape-in),*::before{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* ===== Identidade visual v2 ===== */
+:root{--bg:#070b14;--bg2:#0d2b3a;--hdr:rgba(7,11,20,.78);--card:#0d1422;--card2:#101a2d;--text:#eaf1f8;--muted:#7f90a8;--line:#1b2840;--accent:#22d3ee;--accent2:#f5b84b;--up:#34d399;--down:#fb7185;--warn:#f5b84b;--shadow:0 12px 34px rgba(0,0,0,.45);
+--fh:"Space Grotesk","Inter",system-ui,sans-serif;--fb:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--fm:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+:root[data-theme=light]{--bg:#f4f6f9;--bg2:#d9f1f6;--hdr:rgba(244,246,249,.85);--card:#ffffff;--card2:#f8fafc;--text:#0c1626;--muted:#5a6b82;--line:#dde4ee;--accent:#0891b2;--accent2:#b7791f;--up:#0f9d6a;--down:#dc3b5a;--warn:#b7791f;--shadow:0 10px 26px rgba(15,35,70,.1)}
+body{font-family:var(--fb);background:radial-gradient(900px 420px at 90% -8%,color-mix(in srgb,var(--bg2) 70%,transparent),transparent 62%),radial-gradient(700px 400px at -5% 30%,color-mix(in srgb,var(--accent2) 7%,transparent),transparent 60%),linear-gradient(var(--bg),var(--bg));background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;opacity:.28;mask-image:radial-gradient(ellipse at 50% 0,#000 10%,transparent 72%);-webkit-mask-image:radial-gradient(ellipse at 50% 0,#000 10%,transparent 72%)}
+.brand{font-family:var(--fh);font-size:20px;letter-spacing:-.03em}.brand i{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 40%,#0a3a8a));box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 45%,transparent);color:#04121a}
+.brand small{font-family:var(--fm);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent2)}
+.brand svg{width:20px;height:20px}
+button.active,.nav.sub button.active{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#2563eb));color:#031219;border-color:transparent;box-shadow:0 6px 20px color-mix(in srgb,var(--accent) 38%,transparent)}
+button:hover{border-color:var(--accent);box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 22%,transparent)}
+.nav button{font-family:var(--fh);letter-spacing:-.01em}
+.view h2{font-family:var(--fh);font-weight:700;letter-spacing:-.04em;position:relative;display:inline-block;padding-bottom:8px}
+.view h2::after{content:"";position:absolute;left:0;bottom:0;width:46px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.date{font-family:var(--fm);font-size:11px;letter-spacing:.02em;margin-top:6px}
+.card{background:linear-gradient(165deg,var(--card),var(--card2));border-color:var(--line);border-radius:16px}
+.card:hover{border-color:var(--accent);box-shadow:0 18px 42px color-mix(in srgb,var(--accent) 20%,transparent)}
+.label{font-family:var(--fm);font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+.value{font-family:var(--fm);font-weight:600;font-size:22px;letter-spacing:-.03em}
+.up,.down,.neutral{font-family:var(--fm);font-size:13px;font-weight:600}
+.up{color:var(--up)}.down{color:var(--down)}
+.card.k-up{box-shadow:var(--shadow),inset 0 1px 0 color-mix(in srgb,var(--up) 22%,transparent)}.card.k-down{box-shadow:var(--shadow),inset 0 1px 0 color-mix(in srgb,var(--down) 22%,transparent)}
+.badge{font-family:var(--fm);font-size:10px;letter-spacing:.05em}
+.chartcard{border-radius:20px}.chartcard h3{font-family:var(--fh);font-size:19px}
+.tape{border-block:1px solid var(--line);background:color-mix(in srgb,var(--card) 70%,transparent);overflow:hidden;position:relative}
+.tape::before,.tape::after{content:"";position:absolute;top:0;bottom:0;width:36px;z-index:1;pointer-events:none}
+.tape::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}.tape::after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
+.tape-in{display:inline-flex;white-space:nowrap;animation:tape 38s linear infinite;padding:7px 0;will-change:transform}.tape:hover .tape-in{animation-play-state:paused}
+.tape span{font-family:var(--fm);font-size:12px;padding:0 18px;color:var(--muted)}.tape b{color:var(--text);font-weight:600;margin-right:6px}.tape .up::before{content:"▲ ";font-size:9px}.tape .down::before{content:"▼ ";font-size:9px}
+@keyframes tape{to{transform:translateX(-50%)}}
+footer{max-width:1100px;margin:30px auto 0;padding:18px 16px calc(24px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+footer b{font-family:var(--fh);color:var(--text)}
+
+:root[data-theme=light] button.active,:root[data-theme=light] .nav.sub button.active{color:#fff}
+:root[data-theme=light] .brand i{color:#fff}
+
+/* ===== Tipografia v3: legibilidade ===== */
+:root{--fh:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--fb:var(--fh);--fm:var(--fh)}
+body{font-size:15.5px;line-height:1.6;font-feature-settings:"cv11","ss01";text-rendering:optimizeLegibility}
+.value,.up,.down,.neutral,.tape span,.tape b,.date,.badge,.small{font-variant-numeric:tabular-nums lining-nums}
+.label{font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+.value{font-size:24px;font-weight:700;letter-spacing:-.02em}
+.up,.down,.neutral{font-size:14px;font-weight:600}
+.desc{font-size:14.5px;line-height:1.6}
+.small,.date{font-size:12.5px}.date{letter-spacing:0}
+.brand{font-weight:800;letter-spacing:-.02em}.brand small{font-size:11px;font-weight:600;letter-spacing:.05em}
+.view h2{font-weight:800;letter-spacing:-.03em}
+.nav button{font-weight:600;letter-spacing:0}.nav.sub button{font-weight:500}
+.filters button{font-weight:500}
+.tape span{font-size:12.5px}
+.chartcard h3{font-weight:700;letter-spacing:-.02em}.chartcard .sub{font-size:13px;line-height:1.5}
+.ax{font-family:var(--fh);font-size:11.5px}
+@media(max-width:480px){.value{font-size:21px}.card{padding:14px 13px}}
+
+/* ===== Layout v4: estilo painel de bebidas, em tons de azul ===== */
+:root,:root[data-theme=light]{--bg:#eef3fa;--card:#ffffff;--card2:#ffffff;--text:#13233a;--muted:#64748b;--line:#dfe7f2;--accent:#1f6fe5;--accent2:#38a3ff;--up:#0f9d6a;--down:#dc3b5a;--warn:#b7791f;--hero1:#0a2a5e;--hero2:#1458c9;--shadow:0 1px 2px rgba(15,35,70,.05),0 6px 20px rgba(15,35,70,.07)}
+:root[data-theme=dark]{--bg:#0a1220;--card:#111b2e;--card2:#111b2e;--text:#e6eef9;--muted:#8aa0bd;--line:#1f2e47;--accent:#4d9bff;--accent2:#7cc4ff;--up:#34d399;--down:#fb7185;--warn:#f5b84b;--hero1:#06142e;--hero2:#0c3a82;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.28)}
+body{background:var(--bg)!important;background-attachment:scroll!important}body::before{display:none}
+header.hero-wrap{position:static;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;border:0;box-shadow:none}
+.hero{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#fff;padding:calc(env(safe-area-inset-top,0px) + 26px) 16px 66px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-70px;top:-70px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(120,200,255,.38),transparent 70%)}
+.hero:before{content:"";position:absolute;left:-90px;bottom:-120px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(56,163,255,.22),transparent 70%)}
+.wrap{max-width:1100px;margin:auto;position:relative;z-index:1}
+.hero .top{max-width:none;margin:0;align-items:flex-start;gap:12px}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.15);padding:4px 11px;border-radius:20px}
+.hero h1{margin:10px 0 4px;font-size:clamp(26px,5.4vw,40px);line-height:1.1;letter-spacing:-.025em;font-weight:800}
+.hero h1 em{font-style:normal;color:#9fd2ff}
+.hero p{margin:0;max-width:640px;opacity:.86;font-size:14px;line-height:1.55}
+.hero .actions{display:flex;gap:8px;flex:none}
+.hero .actions button{width:44px;height:44px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;font-size:19px;backdrop-filter:blur(6px);box-shadow:none}
+.hero .actions button:hover{background:rgba(255,255,255,.24);transform:translateY(-2px);border-color:rgba(255,255,255,.5);box-shadow:none}
+#nav.nav{max-width:1100px;margin:-32px auto 0;padding:2px 16px 6px;position:relative;z-index:2}
+#nav.nav button,#subnav.nav button{background:var(--card);color:var(--muted);border:1px solid var(--line);box-shadow:var(--shadow);font-weight:600}
+#nav.nav button{padding:10px 17px;font-size:13.5px}
+#nav.nav button.active,#subnav.nav button.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 40%,transparent)}
+:root[data-theme=dark] #nav.nav button.active,:root[data-theme=dark] #subnav.nav button.active{color:#04101f}
+#subnav.nav{max-width:1100px;margin:6px auto 0;padding:2px 16px 4px;border:0;position:relative;z-index:2}
+#subnav.nav button{padding:7px 14px;font-size:12.5px;font-weight:500;box-shadow:none;background:transparent}
+.tape{max-width:1068px;margin:12px 16px 0;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:var(--shadow)}
+@media(min-width:1100px){.tape{margin:12px auto 0}}
+.tape::before{background:linear-gradient(90deg,var(--card),transparent)}.tape::after{background:linear-gradient(270deg,var(--card),transparent)}
+main{max-width:1100px;padding:18px 16px 28px}
+.view h2{font-size:clamp(24px,4vw,32px);padding-bottom:0}.view h2::after{display:none}
+.card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:16px;box-shadow:var(--shadow)}
+.card::before{display:none}.card.k-up{border-top-color:var(--up);box-shadow:var(--shadow)}.card.k-down{border-top-color:var(--down);box-shadow:var(--shadow)}.card.k-neutral{border-top-color:var(--accent)}
+.card:hover{transform:translateY(-4px);border-color:var(--line);box-shadow:0 14px 34px color-mix(in srgb,var(--accent) 18%,transparent)}
+.card.k-up:hover{border-top-color:var(--up)}.card.k-down:hover{border-top-color:var(--down)}
+.chartcard{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.filters button{background:var(--card);border:1px solid var(--line);color:var(--muted);box-shadow:none}
+.filters button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme=dark] .filters button.active{color:#04101f}
+.filters button:hover{border-color:var(--accent);color:var(--accent);box-shadow:none}.filters button.active:hover{color:#fff}
+footer{max-width:1100px;border-top:1px solid var(--line);margin-top:8px}
+@media(max-width:480px){.hero{padding-bottom:62px}.hero .actions button{width:40px;height:40px}.tape{margin-inline:12px}}
+
+/* ===== Skin Status Invest (abas Ativos e Macro e câmbio) ===== */
+body[data-skin=si]{--accent:#00598a;--accent2:#1d85c2;--line:#e3e8ee;--bg:#f3f5f8;--card:#fff;--text:#1f2a37;--muted:#6b7684;--shadow:none}
+:root[data-theme=dark] body[data-skin=si]{--accent:#4aa8e0;--accent2:#7cc4ff;--line:#243244;--bg:#0d1520;--card:#121d2b;--text:#e6eef9;--muted:#8aa0bd}
+body[data-skin=si] .hero{background:linear-gradient(135deg,#003a5c,#00598a)}
+body[data-skin=si] .hero h1 em{color:#8ed0f5}
+.crumb{display:none}
+body[data-skin=si] .crumb{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);margin:2px 0 6px}
+body[data-skin=si] .crumb i{font-style:normal;margin:0 4px;opacity:.6}body[data-skin=si] .crumb b{color:var(--accent)}
+body[data-skin=si] .view h2{font-size:22px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;display:flex;align-items:center;gap:10px;padding:0 0 10px;border-bottom:2px solid var(--accent);margin-bottom:0}
+body[data-skin=si] .view h2::before{content:"";display:inline-block;width:6px;height:22px;border-radius:2px;background:var(--accent)}
+body[data-skin=si] .date{margin:8px 0 0;font-size:12px;color:var(--muted)}
+body[data-skin=si] #nav.nav button.active,body[data-skin=si] #subnav.nav button.active{background:var(--accent);border-color:var(--accent)}
+body[data-skin=si] #subnav.nav{display:flex;gap:0;padding-bottom:4px}
+body[data-skin=si] #subnav.nav button{border-radius:0;margin-left:-1px;background:var(--card);box-shadow:none;font-weight:600;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:8px 16px}
+body[data-skin=si] #subnav.nav button:first-child{border-radius:8px 0 0 8px;margin-left:0}body[data-skin=si] #subnav.nav button:last-child{border-radius:0 8px 8px 0}
+body[data-skin=si] .filters{gap:0;margin:0 0 16px;border-bottom:1px solid var(--line);overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+body[data-skin=si] .filters::-webkit-scrollbar{display:none}
+body[data-skin=si] .filters button{flex:0 0 auto;background:none;border:0;border-bottom:3px solid transparent;border-radius:0;padding:12px 16px;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:-1px;box-shadow:none}
+body[data-skin=si] .filters button:hover{color:var(--accent);transform:none;background:none;box-shadow:none}
+body[data-skin=si] .filters button.active{background:none;color:var(--accent);border-bottom-color:var(--accent)}
+body[data-skin=si] .grid{gap:0;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+body[data-skin=si] .card{border:0;border-radius:0;box-shadow:inset -1px -1px 0 var(--line);background:var(--card);padding:16px 16px 14px;animation-name:siIn}
+body[data-skin=si] .card:hover{transform:none;box-shadow:inset -1px -1px 0 var(--line);background:color-mix(in srgb,var(--accent) 5%,var(--card))}
+body[data-skin=si] .card.k-up,body[data-skin=si] .card.k-down,body[data-skin=si] .card.k-neutral{border:0}
+body[data-skin=si] .label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--muted)}
+body[data-skin=si] .label::after{content:"?";display:inline-grid;place-items:center;width:14px;height:14px;border-radius:50%;border:1px solid var(--muted);font-size:9px;opacity:.55;margin-left:auto}
+body[data-skin=si] .value{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:8px 0 6px}
+body[data-skin=si] .up,body[data-skin=si] .down{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:13px;font-weight:700}
+body[data-skin=si] .up{background:color-mix(in srgb,var(--up) 14%,transparent)}body[data-skin=si] .down{background:color-mix(in srgb,var(--down) 14%,transparent)}
+body[data-skin=si] .up::before{content:"↑";font-size:13px}body[data-skin=si] .down::before{content:"↓";font-size:13px}
+body[data-skin=si] .desc{font-size:13px;color:var(--muted);opacity:1}
+body[data-skin=si] .small{font-size:11.5px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line)}
+@keyframes siIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:480px){body[data-skin=si] .grid{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-skin=si] .value{font-size:22px}body[data-skin=si] .view h2{font-size:19px}}
+body[data-skin=si] .filters button.active,:root[data-theme=dark] body[data-skin=si] .filters button.active,body[data-skin=si] .filters button.active:hover{color:var(--accent)!important;background:none}
+
+.dre h3 small{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:2px}
+.dre .tw{overflow-x:auto;margin-top:10px}.dre table{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
+.dre th{text-align:right;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:2px solid var(--accent)}
+.dre th:first-child,.dre td:first-child{text-align:left}
+.dre td{padding:10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}.dre td.num{text-align:right;font-weight:700}
+.dre td.ref{text-align:right;color:var(--muted);font-size:12.5px}.dre tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+.dre .up::before,.dre .down::before{content:""}
+body[data-skin=si] .dre td.up,body[data-skin=si] .dre td.down,body[data-skin=si] .dre td.neutral{display:table-cell;background:none;border-radius:0;padding:10px;gap:0;font-size:14px}
+.dre td.up{color:var(--up)}.dre td.down{color:var(--down)}.dre td.neutral{color:var(--muted)}
+.dre table{min-width:360px;font-size:13.5px}.dre td,.dre th{padding:9px 8px}.dre td.ref{font-size:12px}
+@media(max-width:480px){.dre .tw{margin-inline:-6px}}
+
+/* ===== UX v5: navegação mobile, busca, acessibilidade ===== */
+.skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:#fff;padding:8px 14px;border-radius:8px;z-index:100}.skip:focus{left:8px}
+:focus-visible{outline:2px solid var(--accent2);outline-offset:2px;border-radius:6px}
+.tools{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.q{flex:1;max-width:360px;min-height:42px;padding:9px 14px 9px 38px;border:1px solid var(--line);border-radius:10px;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238a97a8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='M11 11l4 4'/%3E%3C/svg%3E") 13px center no-repeat;color:var(--text);font:inherit;font-size:14px;transition:border-color .2s,box-shadow .2s}
+.q:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.count{font-size:12.5px;color:var(--muted);white-space:nowrap}
+#view-dashboard .tools{display:none}
+.empty .reset{margin-top:12px;padding:9px 16px;border-radius:10px;background:var(--accent);color:#fff;border-color:var(--accent)}
+:root[data-theme=dark] .empty .reset{color:#04101f}
+#nav .ic{margin-right:6px}#nav .tx.s{display:none}
+#subnav.nav{position:sticky;top:0;z-index:15;max-width:none;margin:0;padding:8px max(16px,calc((100vw - 1068px)/2)) 8px;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);scrollbar-width:none}
+#subnav.nav::-webkit-scrollbar{display:none}
+@media(max-width:700px){
+ body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+ .hero{padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 26px}.hero p{display:none}.hero h1{font-size:23px;margin:8px 0 0}.tag{font-size:10px}
+ .hero .actions button{width:38px;height:38px;font-size:17px}
+ #nav.nav{position:fixed;left:0;right:0;bottom:0;margin:0;max-width:none;z-index:30;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);box-shadow:0 -6px 24px rgba(10,30,70,.12);overflow:visible}
+ #nav.nav button,body[data-skin=si] #nav.nav button{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;padding:6px 2px!important;border:0!important;border-radius:12px!important;background:none!important;box-shadow:none!important;color:var(--muted)!important;font-size:11px!important;font-weight:600}
+ #nav.nav button.active,body[data-skin=si] #nav.nav button.active{background:color-mix(in srgb,var(--accent) 14%,transparent)!important;color:var(--accent)!important}
+ #nav .ic{margin:0;font-size:20px;line-height:1}#nav .tx.l{display:none}#nav .tx.s{display:block}
+ .filters button{min-height:40px}.tools .q{max-width:none}
+ main{padding-top:14px}
+}
+@media(min-width:701px){#nav.nav{margin-top:-30px}}
+
+/* ===== Cards compactos + dashboard por assunto ===== */
+.grid{gap:10px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.card{padding:11px 12px 9px;border-radius:12px}
+.label{font-size:10.5px;letter-spacing:.07em}
+.value{font-size:19px;margin:4px 0 4px;letter-spacing:-.02em}
+.up,.down,.neutral{font-size:12px}
+.desc{font-size:12px;line-height:1.4;margin:5px 0 3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.small{font-size:10.5px}
+.news{grid-column:auto}.news .value{font-size:16px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}}
+body[data-skin=si] .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+body[data-skin=si] .card{padding:10px 12px 8px}
+body[data-skin=si] .value{font-size:20px;margin:5px 0 4px}
+body[data-skin=si] .label{font-size:11.5px}body[data-skin=si] .label::after{width:12px;height:12px;font-size:8px}
+body[data-skin=si] .up,body[data-skin=si] .down{font-size:12px;padding:1px 7px}
+body[data-skin=si] .desc{font-size:12px}body[data-skin=si] .small{margin-top:4px;padding-top:4px;font-size:10.5px}
+.sec{grid-column:1/-1;margin:8px 0 0;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.sec::after{content:"";flex:1;height:1px;background:var(--line)}
+.minis{grid-column:1/-1;display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:700px){.minis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.chartcard.mini{padding:12px 12px 8px}.mini h3{font-size:14.5px}.mini .sub{font-size:11px;margin:1px 0 4px}.mini .chartwrap{margin:0 -4px}
+
+/* ===== Ranking de altas e baixas ===== */
+.rk-note{background:color-mix(in srgb,var(--accent) 8%,var(--card));border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5;color:var(--text)}
+.rk-note span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.rkwrap{grid-column:1/-1;display:grid;gap:12px;grid-template-columns:1fr}@media(min-width:900px){.rkwrap{grid-template-columns:1fr 1fr}}
+.rkcol{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 8px 6px;animation:cardIn .5s var(--ease) both;animation-delay:calc(var(--i,0)*90ms)}
+.rkcol h3{margin:0 8px 6px;font-size:14px;letter-spacing:.03em;text-transform:uppercase}
+.rkcol.s-up h3{color:var(--up)}.rkcol.s-down h3{color:var(--down)}
+.rkcol ol{list-style:none;margin:0;padding:0}
+.rkrow{position:relative;display:grid;grid-template-columns:22px minmax(86px,1.1fr) minmax(40px,1fr) auto auto 14px;align-items:center;gap:8px;padding:9px 8px;border-top:1px solid var(--line);border-radius:8px;cursor:help;outline-offset:-2px;transition:background .2s}
+.rkrow:first-child{border-top:0}.rkrow:hover,.rkrow:focus{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.rkrow .pos{font-size:12px;font-weight:700;color:var(--muted);text-align:center}
+.rkrow .who b{display:block;font-size:14px}.rkrow .who small{display:block;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rkrow .bar{height:6px;border-radius:4px;background:var(--line);overflow:hidden}
+.rkrow .bar i{display:block;height:100%;border-radius:4px;animation:growX .8s var(--ease) both}
+.rkcol.s-up .bar i{background:var(--up)}.rkcol.s-down .bar i{background:var(--down)}
+.rkrow .px{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.rkrow .chg{font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;min-width:62px;text-align:right}
+.rkrow .chg.c-up{color:var(--up)}.rkrow .chg.c-down{color:var(--down)}
+.rkrow .info{font-size:12px;color:var(--muted);opacity:.7}
+.rkrow .tipbox{display:none;position:absolute;left:8px;right:8px;top:calc(100% - 2px);z-index:6;background:#10223d;color:#fff;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.5;box-shadow:0 12px 30px rgba(0,0,0,.28);font-weight:400}
+:root[data-theme=dark] .rkrow .tipbox{background:#e8f0fb;color:#0b1a2e}
+.rkrow:hover .tipbox,.rkrow:focus .tipbox,.rkrow:focus-within .tipbox{display:block;animation:tipIn .18s ease both}
+@keyframes growX{from{width:0!important}}@keyframes tipIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media(max-width:480px){.rkrow{grid-template-columns:20px minmax(80px,1fr) auto auto;gap:6px}.rkrow .bar,.rkrow .info{display:none}.rkrow .px{font-size:12px}}
+
+/* ===== Tooltips curtos nos cards (cards compactos) ===== */
+#gtip{position:fixed;z-index:60;left:0;top:0;max-width:min(280px,calc(100vw - 16px));background:#10223d;color:#fff;padding:8px 11px;border-radius:9px;font-size:12.5px;line-height:1.45;font-weight:500;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s;box-shadow:0 10px 28px rgba(0,0,0,.3)}
+#gtip.on{opacity:1;transform:none}
+:root[data-theme=dark] #gtip{background:#e8f0fb;color:#0b1a2e}
+.card[data-tip]{cursor:help}
+.card .label{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.card .label::after{content:"ⓘ";font-size:11px;opacity:.5;font-weight:400;letter-spacing:0}
+body[data-skin=si] .card .label::after{content:"?";margin-left:auto}
+.card{padding-bottom:8px}.small{margin-top:3px}
+body[data-skin=si] .grid{overflow:visible}
+
+/* ===== Botão e player de áudio ===== */
+.audbtn{margin-top:12px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.16);color:#fff;font-weight:700;font-size:14px;backdrop-filter:blur(6px);box-shadow:none}
+.audbtn:hover{background:rgba(255,255,255,.28);border-color:#fff;transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.audbtn[aria-pressed=true]{background:#fff;color:#0a2a5e}
+#aud{position:fixed;z-index:50;right:18px;bottom:18px;width:min(380px,calc(100vw - 24px));background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:12px 14px 10px;box-shadow:0 18px 44px rgba(10,30,70,.28);animation:cardIn .35s var(--ease) both}
+#aud[hidden]{display:none}
+.aud-top{display:flex;justify-content:space-between;font-size:13px}.aud-step{color:var(--muted);font-variant-numeric:tabular-nums}
+.aud-txt{margin:8px 0;font-size:13.5px;line-height:1.5;min-height:3em;max-height:7.5em;overflow:auto}
+.aud-bar{height:4px;border-radius:4px;background:var(--line);overflow:hidden}.aud-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s var(--ease)}
+.aud-ctl{display:flex;gap:6px;margin-top:10px;justify-content:space-between}
+.aud-ctl button{flex:1;min-height:40px;padding:6px;border-radius:10px;font-size:15px;font-weight:600}
+.aud-ctl[hidden]{display:none}
+@media(max-width:700px){#aud{left:12px;right:12px;width:auto;bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+.c-ag{--c:var(--up)}.c-ind{--c:var(--accent)}.c-sv{--c:var(--accent2)}.c-rs{--c:color-mix(in srgb,var(--muted) 50%,transparent)}
+.pibx{grid-column:1/-1;display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:20px;align-items:start}
+.phero,.plist{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.phero{padding:22px 20px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.phero svg{width:100%;max-width:220px;height:auto}
+.pc1{font-size:16px;font-weight:700;fill:var(--text)}.pc2{font-size:10px;fill:var(--muted)}
+.pl{list-style:none;margin:0;padding:0;width:100%;display:grid;gap:10px}
+.pl li{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:center;font-size:14px}
+.pl li i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.pl li span{color:var(--muted)}.pl li b{font-size:17px;font-variant-numeric:tabular-nums}
+.ptur{width:100%;padding-top:14px;border-top:1px solid var(--line);font-size:12px;line-height:1.45;color:var(--muted)}
+.plist{padding:10px 8px 8px}
+.plg{display:flex;gap:14px;flex-wrap:wrap;padding:4px 10px 10px;font-size:11.5px;color:var(--muted)}
+.plg span{display:inline-flex;align-items:center;gap:6px}.plg i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.pr{display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:center;padding:9px 10px;border-radius:12px;cursor:pointer;transition:background .2s}
+.pr:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.pr.on{background:color-mix(in srgb,var(--accent) 14%,transparent)}.pr.on .pn{color:var(--accent);font-weight:700}
+.pr:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.pn{font-size:13.5px}
+.pb{display:flex;gap:2px;height:10px;border-radius:5px;overflow:hidden}.pb span{background:var(--c);min-width:0}
+.pinfo{grid-column:1/-1;margin-top:4px;font-size:12px;color:var(--muted)}
+.pinfo summary{cursor:pointer;width:max-content}.pinfo p{margin:8px 0 0;line-height:1.55;max-width:760px}
+@media(max-width:760px){.pibx{grid-template-columns:1fr}.pr{grid-template-columns:92px 1fr}}
+.qlist,.nw,.ag,.pq{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.qlist{grid-column:1/-1;padding:6px 8px}
+.qr{display:grid;grid-template-columns:1fr auto auto;gap:4px 14px;align-items:center;padding:13px 10px;border-bottom:1px solid var(--line);border-radius:10px}
+.qr:last-child{border-bottom:0}.qr.x{cursor:pointer}.qr.x:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.qn b{display:block;font-size:14.5px;font-weight:600}.qn small{color:var(--muted);font-size:11.5px}
+.qv{font-weight:700;font-size:15px;text-align:right;font-variant-numeric:tabular-nums}
+.pil{padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;background:color-mix(in srgb,var(--muted) 16%,transparent);color:var(--muted)}
+.pil.up{color:var(--up);background:color-mix(in srgb,var(--up) 15%,transparent)}.pil.down{color:var(--down);background:color-mix(in srgb,var(--down) 15%,transparent)}
+.qd{grid-column:1/-1;display:none;font-size:13px;line-height:1.55;color:var(--muted);max-width:720px;padding-bottom:4px}.qr.open .qd{display:block}
+.nlist,.alist{grid-column:1/-1;display:grid;gap:12px;max-width:820px}
+.nw{padding:16px 18px}.nm{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--muted);margin-bottom:6px}
+.nm em{font-style:normal;padding:2px 8px;border-radius:999px;background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent);font-weight:600}.nm span{margin-left:auto}
+.nw h3{margin:0 0 4px;font-size:16.5px;letter-spacing:-.01em}.nv{margin:0;font-weight:600;font-size:14px}.nd{margin:8px 0 0;font-size:13px;line-height:1.55;color:var(--muted)}
+.ag{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;padding:12px 14px}
+.ad{text-align:center;border-radius:12px;padding:8px 0;background:color-mix(in srgb,var(--accent) 14%,transparent)}.ad b{display:block;font-size:20px;line-height:1.1}.ad span{font-size:11px;text-transform:uppercase;color:var(--accent);font-weight:700}
+.at{font-weight:600}.am{font-size:12.5px;color:var(--muted)}.an{font-size:12.5px;margin-top:4px;color:var(--muted)}
+.pqs{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.pq{padding:14px 16px}.pt{display:flex;justify-content:space-between;gap:10px;font-weight:600;font-size:14px}.pt b{font-size:20px;font-variant-numeric:tabular-nums}
+.pbr{height:8px;border-radius:4px;background:color-mix(in srgb,var(--muted) 20%,transparent);margin:10px 0;overflow:hidden}.pbr i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.pm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:11.5px;color:var(--muted)}.pq details{margin-top:8px;font-size:12.5px;color:var(--muted)}.pq summary{cursor:pointer}
+@media(min-width:701px){body .hero{padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 42px}body .hero p{display:none}body .hero .top>div:first-child{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px}body .hero h1{margin:0;font-size:clamp(24px,3.4vw,32px)}body .hero .audbtn{margin:0;padding:7px 14px;font-size:13px}body .hero .actions button{width:38px;height:38px;font-size:17px}body .hero:after{width:200px;height:200px}}
+body .hero .actions .audbtn{margin:0;padding:0;gap:0;justify-content:center;width:44px;height:44px;border-radius:50%;font-size:19px}@media(min-width:701px){body .hero .actions .audbtn{width:38px;height:38px;font-size:17px}}@media(max-width:480px){body .hero .actions .audbtn{width:40px;height:40px}}
+</style></head><body>
+<a class="skip" href="#main">Pular para o conteúdo</a><noscript><p style="padding:16px">Ative o JavaScript para ver o painel.</p></noscript>
+<header class="hero-wrap"><div class="hero"><div class="wrap"><div class="top"><div><span class="tag">Atualizado em 22/10/2026</span>
+<h1>Freakonomics</h1>
+<p>Bolsa, câmbio, juros, ETFs, fundos, empresas, notícias e mercados de previsão em um só painel · Brasil, EUA e Europa.</p></div>
+<div class="actions"><button id="audioBtn" class="audbtn" type="button" title="Ouvir resumo do dia" aria-label="Ouvir resumo em áudio das principais notícias e índices do dia">🔊</button><button id="refresh" aria-label="Atualizar" title="Atualizar">↻</button><button id="theme" aria-label="Alternar tema" title="Alternar claro/escuro">☾</button></div></div></div></div>
+<nav class="nav" id="nav" aria-label="Seções"></nav></header>
+<nav class="nav sub" id="subnav" aria-label="Subseções"></nav>
+<div class="tape" aria-label="Cotações em destaque"><div class="tape-in" id="tape"></div></div>
+<main id="main"></main>
+<footer><span><b>Market Terminal</b> · painel pessoal de acompanhamento</span><span>Dados de fechamento e fontes indicadas em cada card · não constitui recomendação</span></footer>
+<script>
+const sections=[["dashboard","Dashboard"],["brasil","Brasil"],["bolsa","Bolsa"],["etfs","ETFs"],["cambio","Câmbio"],["juros","Juros"],["commodities","Commodities"],["fundos","Fundos"],["noticias","Notícias"],["empresas","Empresas"],["agenda","Agenda"],["ranking","Ranking"],["dre","DRE"],["pib","PIB setorial"],["predicoes","Prediction"]];
+// item: {l:rótulo, v:valor, c:variação/estado, k:classe(up/down/neutral), s:fonte/data, t:[tags], d:descrição, p:true se dado pendente}
+// Últimas cotações verificadas; os fundos sem cotação recente mantêm a data de referência original.
+const prev={"BOVA11":{v:"R$ 200,96",c:"-1,25%",k:"down",s:"Yahoo Finance · fechamento 22/10"},"IFIX (FIIs)":{v:"3.771,85 pts",c:"+0,43%",k:"up",s:"Último fechamento disponível: 02/10"},"Hashdex 20 Nasdaq Index Crypto":{v:"-3,46%",c:"Variação em 12 meses",k:"down",s:"Gorila · dados de 30/07/2026"},"Hashdex Bitcoin FIM":{v:"-49,50%",c:"Variação em 12 meses",k:"down",s:"Gorila · dados de 30/07/2026"},"Bradesco Centurion Dividendos":{v:"+34,69%",c:"Variação em 12 meses",k:"up",s:"Gorila · dados de 30/07/2026"},"Plural Dividendos FIF FIA":{v:"+31,06%",c:"Variação em 12 meses",k:"up",s:"Gorila · dados de 30/07/2026"},"Western Asset US Index 500 FIF":{v:"+27,79%",c:"Variação em 12 meses",k:"up",s:"Gorila · dados de 30/07/2026"},"IVVB11":{v:"R$ 436,55",c:"-0,90%",k:"down",s:"Yahoo Finance · fechamento 22/10"},"GOLD11":{v:"R$ 21,02",c:"-2,37%",k:"down",s:"Yahoo Finance · fechamento 22/10"},"HASH11":{v:"R$ 52,65",c:"-3,59%",k:"down",s:"Yahoo Finance · fechamento 22/10"},"DIVO11":{v:"R$ 145,08",c:"-1,00%",k:"down",s:"Yahoo Finance · fechamento 22/10"},"IMAB11":{v:"R$ 125,78",c:"+0,41%",k:"up",s:"Yahoo Finance · fechamento 22/10"},"AUVP11":{v:"R$ 150,62",c:"-0,75%",k:"down",s:"Yahoo Finance · fechamento 22/10"}};
+const PREV_LABEL="Último fechamento disponível";
+// P = item sem feed em tempo real: usa a última cotação verificada ou fica pendente.
+const P=(l,t,d)=>{const o=prev[l];return o?{l,v:o.v,c:o.c||"",k:o.k||"neutral",s:o.s||PREV_LABEL,t,d,d1:o.d1||0}:{l,v:"—",c:"Variação indisponível",k:"neutral",s:"Feed de mercado pendente",t,d,p:1}};
+const data={
+dashboard:[
+{l:"Ibovespa",v:"204.120,12",c:"-1,15%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Brasil"]},
+{l:"Dólar/BRL",v:"R$ 5,038",c:"+0,22%",k:"up",s:"Fechamento 22/10 · Poder360",t:["Brasil","Câmbio"]},
+{l:"S&P 500",v:"7.663,43",c:"-1,21%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Nasdaq",v:"26.008,86",c:"-2,60%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Dow Jones",v:"52.867,98",c:"+0,02%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Selic",v:"13,75% a.a.",c:"vigente",k:"neutral",s:"Último dado: 07/10",t:["Brasil","Juros"]},
+{l:"Brent",v:"US$ 113,23",c:"+4,05%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["Commodities"]},
+{l:"Ouro",v:"US$ 4.037,00",c:"-2,72%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Commodities"]},
+{l:"Treasury 10Y",v:"4,95%",c:"-19 pb vs. 21/10",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA","Juros"]}],
+brasil:[
+{l:"Ibovespa",v:"204.120,12",c:"-1,15%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Índices"],d:"Principal índice da B3."},
+{l:"Dólar/BRL",v:"R$ 5,038",c:"+0,22%",k:"up",s:"Fechamento 22/10 · Poder360",t:["Câmbio"]},
+{l:"Selic",v:"13,75% a.a.",c:"vigente",k:"neutral",s:"07/10",t:["Juros"]},
+{l:"IPCA 12 meses",v:"4,58%",c:"+0,36 p.p. vs. agosto (4,22%)",k:"neutral",s:"Set/2026 · IBGE (09/10)",t:["Juros"],d:"Alta de 0,82% no mês, acima do consenso (0,73%). Passou o teto da meta (4,5%); energia elétrica +7,98%."},
+P("IFIX (FIIs)",["Índices"]),P("DI Jan/2029",["Juros"])],
+bolsa:[
+{l:"Ibovespa",v:"204.120,12",c:"-1,15%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Brasil"]},
+{l:"S&P 500",v:"7.663,43",c:"-1,21%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Nasdaq",v:"26.008,86",c:"-2,60%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Dow Jones",v:"52.867,98",c:"+0,02%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Russell 2000",v:"2.784,03",c:"+0,11%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Ibex 35 (Espanha)",v:"19.323,50",c:"+1,21%",k:"up",s:"Último fechamento: 21/10 · Yahoo Finance",t:["Europa","Espanha"]},
+{l:"Stoxx 600",v:"644,49",c:"+0,78%",k:"up",s:"Último fechamento: 21/10 · Yahoo Finance",t:["Europa"]},
+{l:"Nikkei 225",v:"64.621,24",c:"+0,85%",k:"up",s:"Último fechamento: 21/10 · Yahoo Finance",t:["Ásia"]}],
+etfs:[
+{...P("BOVA11",["Brasil"],"iShares Ibovespa — replica o Ibovespa.")},
+{...P("DIVO11",["Brasil","Dividendos"],"It Now IDIV — ações pagadoras de dividendos.")},
+{...P("GOLD11",["Brasil","Ouro"],"Trend Ouro — acompanha o ouro.")},
+{...P("IVVB11",["EUA","Global"],"iShares S&P 500 — exposição ao S&P 500 em reais.")},
+{...P("AUVP11",["Brasil"],"BTG Pactual Teva AUVP — ações brasileiras selecionadas por fundamentos (índice Teva IAFD).")},
+{...P("IMAB11",["Brasil","Renda Fixa"],"iShares IMA-B — títulos públicos atrelados à inflação.")},
+{...P("HASH11",["Cripto"],"Hashdex Nasdaq Crypto Index.")},
+{...P("URTH (MSCI World)",["Global"],"iShares MSCI World — mercados desenvolvidos.")},
+{...P("SPY",["EUA"],"SPDR S&P 500 ETF Trust.")}],
+cambio:[
+{l:"USD/BRL",v:"R$ 5,038",c:"+0,22%",k:"up",s:"Fechamento 22/10 · Poder360",t:["USD"]},
+{l:"EUR/BRL",v:"R$ 5,6682",c:"+0,50%",k:"up",s:"Yahoo Finance · cotação 22/10",t:["EUR"],d:"1 euro em reais; cotação intradiária."},
+{l:"EUR/USD",v:"US$ 1,1225",c:"-0,09%",k:"down",s:"Yahoo Finance · cotação 22/10",t:["EUR","USD"],d:"Cotação intradiária."},
+{l:"EUR/GBP",v:"£ 0,8372",c:"-0,17%",k:"down",s:"Yahoo Finance · cotação 22/10",t:["Outras"],d:"1 euro em libras esterlinas; cotação intradiária."},
+{l:"EUR/JPY",v:"¥ 175,445",c:"-1,25%",k:"down",s:"Yahoo Finance · cotação 22/10",t:["Outras"],d:"1 euro em ienes; cotação intradiária."},
+{l:"EUR/CHF",v:"CHF 0,9200",c:"-0,63%",k:"down",s:"Yahoo Finance · cotação 22/10",t:["Outras"],d:"1 euro em francos suíços; cotação intradiária."},
+{l:"EUR/CNY",v:"¥ 7,4934",c:"-0,12%",k:"down",s:"Yahoo Finance · cotação 22/10",t:["Outras"],d:"1 euro em yuans (renminbi); cotação intradiária."},
+{l:"EUR/MXN",v:"$ 21,0177",c:"+0,09%",k:"up",s:"Yahoo Finance · cotação 22/10",t:["Outras"],d:"1 euro em pesos mexicanos; cotação intradiária."}],
+juros:[
+{l:"Selic",v:"13,75% a.a.",c:"vigente",k:"neutral",s:"07/10",t:["Selic"]},
+P("DI Jan/2027",["DI"]),P("DI Jan/2029",["DI"]),
+{l:"Treasury 10Y",v:"4,953%",c:"-19 pb vs. 21/10",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Treasury 30Y",v:"5,287%",c:"-15 pb vs. 21/10",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Euríbor 12M",v:"3,303%",c:"última referência: 05/10",k:"neutral",s:"Euribor.com.es · sem cotação mais recente verificada",t:["Europa"],d:"Referência das hipotecas variáveis na Espanha."},
+{l:"Inflação zona do euro",v:"3,8% a/a",c:"+0,6 p.p. vs. agosto (3,2%)",k:"neutral",s:"Set/2026 · Eurostat (divulgado 02/10)",t:["Europa"],d:"Máxima em 3 anos; energia +18,8%."},
+{l:"Inflação Espanha (IPCH)",v:"5,0% a/a",c:"maior entre as 4 grandes economias",k:"neutral",s:"Set/2026 · Eurostat (divulgado 02/10)",t:["Europa"],d:"Alemanha: 3,3%."},
+{l:"Fed",v:"Ata: nova alta à vista",c:"sem indicar quando",k:"neutral",s:"07/10 · ata da reunião de 15-16/09",t:["EUA"]}],
+commodities:[
+{l:"Brent",v:"US$ 113,23",c:"+4,05%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["Energia"]},
+{l:"WTI",v:"US$ 99,36",c:"+2,28%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["Energia"]},
+{l:"Ouro",v:"US$ 4.037,00",c:"-2,72%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Metais"]},
+{l:"Prata",v:"US$ 54,555",c:"-4,65%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Metais"]},
+P("Soja",["Agrícolas"]),P("Milho",["Agrícolas"])],
+fundos:[
+P("Fundos de ações",["Ações"],"Dados individuais de cotas pendentes."),
+P("Fundos de renda fixa",["Renda Fixa"],"Dados individuais de cotas pendentes."),
+P("Hashdex 20 Nasdaq Index Crypto",["Cripto"],"Fundo de índice com exposição a criptoativos (Nasdaq Crypto Index)."),
+P("Hashdex Bitcoin FIM",["Cripto"],"Fundo multimercado com exposição ao Bitcoin."),
+P("Bradesco Centurion Dividendos",["Ações","Dividendos"],"Fundo de ações focado em empresas pagadoras de dividendos."),
+P("Plural Dividendos FIF FIA",["Ações","Dividendos"],"Fundo de ações (FIA) focado em dividendos."),
+P("Western Asset US Index 500 FIF",["Exterior"],"Fundo indexado ao S&P 500 (EUA).")],
+noticias:[
+{l:"Ibovespa",v:"Fecha em queda de 1,15%, aos 204.120 pontos",c:"",k:"neutral",s:"Poder360 · 22/10",t:["Brasil","Mercados"],d:"A bolsa brasileira encerrou o pregão no vermelho."},
+{l:"Dólar",v:"Sobe 0,22% e fecha a R$ 5,038",c:"",k:"neutral",s:"Poder360 · 22/10",t:["Brasil","Câmbio"],d:"A alta do petróleo e a reta final das eleições estavam no radar do mercado, segundo o G1."},
+{l:"Eleições",v:"Mercados preditivos dão quase 80% de chance a Flávio",c:"",k:"neutral",s:"Exame · 22/10",t:["Brasil","Política"],d:"A reportagem cita 78,5% na Polymarket, apesar de empate técnico nas pesquisas. Probabilidade de mercado, não é pesquisa eleitoral."},
+{l:"Mercados",v:"Petróleo e eleições entram na precificação dos ativos",c:"",k:"neutral",s:"CNN Brasil · 22/10",t:["Brasil","Mundo","Mercados"],d:"Análise publicada pela CNN Brasil sobre fatores que influenciam o mercado financeiro."}],
+empresas:[
+{l:"Arkema",v:"Lucro líquido 2T26: € 65,7 mi",c:"+39,2% a/a",k:"up",s:"Resultado 2T26 · divulgado em 30/07/2026 · Arkema",t:["Arkema"],d:"Vendas € 2.427,8 mi · EBITDA € 391 mi (+7,4%, margem 16,1%) · Lucro líq. ajustado € 129,0 mi (+7,8%) · Dívida líq. + híbridos € 3.605 mi. Próximo resultado (3T26): 05/11/2026.",news:1},
+{l:"FEMSA",v:"Lucro líquido consolidado 2T26: Ps 9.221 mi",c:"+64,9% a/a",k:"up",s:"Resultado 2T26 · divulgado em 28/07/2026 · FEMSA",t:["FEMSA"],d:"Receita Ps 231.002 mi (+9,3%) · Resultado operacional Ps 19.110 mi (+7,2%), margem 8,3% · OXXO México: receita +11,8%, resultado operacional +12,3%.",news:1},
+{l:"CVC Corp (CVCB3)",v:"Prejuízo ajustado 2T26: R$ 51,3 mi",c:"vs. prejuízo de R$ 15,9 mi no 2T25",k:"down",s:"Resultado 2T26 · divulgado em 12/08/2026 · CVC",t:["CVC"],d:"Operadora de turismo. Receita líquida R$ 319,5 mi (-6,5%) · EBITDA ajustado R$ 84,9 mi (-8,1%), margem 26,6% · Prejuízo contábil R$ 72,5 mi · Reservas confirmadas R$ 4,09 bi (+0,2%). Operação Brasil: EBITDA +4,7%. Próximo resultado (3T26) previsto para 11/11.",news:1}],
+agenda:[
+{l:"Boletim Focus (BCB)",v:"19/10 · 08:25",c:"",k:"neutral",s:"InfoMoney",ev:"2026-10-19",t:["Brasil"],d:"Projeções de mercado para PIB e dólar recuaram nesta edição."},
+{l:"Boletim Focus (BCB)",v:"13/10 · 08:25",c:"",k:"neutral",s:"Money Times / InfoMoney",ev:"2026-10-13",t:["Brasil"],d:"Projeções de mercado para IPCA, Selic, PIB e câmbio."},
+{l:"CPI dos EUA (setembro)",v:"14/10 · 09:30",c:"",k:"neutral",s:"InfoMoney / Money Times",ev:"2026-10-14",t:["EUA"],d:"Divulgado: +0,6% no mês e 3,7% em 12 meses (esperado 3,6%); núcleo +0,3% no mês e 2,6% no ano."},
+{l:"Varejo e PPI nos EUA",v:"15/10 · 09:30",c:"",k:"neutral",s:"Money Times",ev:"2026-10-15",t:["EUA","Brasil"],d:"Vendas no varejo, preços ao produtor e pedidos de seguro-desemprego. No Brasil, IBGE divulga o comércio (PMC)."},
+{l:"Inflação final da zona do euro (setembro)",v:"16/10 · 06:00",c:"",k:"neutral",s:"InfoMoney",ev:"2026-10-16",t:["Europa"],d:"Confirma o dado de 3,8% a/a da estimativa preliminar."},
+{l:"IBC-Br (agosto)",v:"16/10 · 09:00",c:"",k:"neutral",s:"InfoMoney / AmdJus",ev:"2026-10-16",t:["Brasil"],d:"Termômetro da atividade; projeção de +0,3% m/m. Alimenta o debate sobre a Selic."},
+{l:"Produção industrial dos EUA (setembro)",v:"16/10 · 10:15",c:"",k:"neutral",s:"InfoMoney",ev:"2026-10-16",t:["EUA"],d:"Fecha a agenda internacional da semana."},
+{l:"2º turno das eleições presidenciais",v:"25/10",c:"",k:"neutral",s:"InfoMoney / Polymarket",ev:"2026-10-25",t:["Brasil","Eleições"],d:"Votação do segundo turno no Brasil; Polymarket precifica Flávio Bolsonaro com 89%."},
+{l:"Reunião do FOMC (Fed)",v:"27-28/10",c:"",k:"neutral",s:"Polymarket / PredictionMarketsPicks",ev:"2026-10-28",t:["EUA"],d:"Decisão no dia 28. Polymarket: sem mudança 84%, alta de 25 pb 16%."},
+{l:"Reunião do BCE",v:"28-29/10",c:"",k:"neutral",s:"Euribor.com.es / HelpMyCash",ev:"2026-10-29",t:["Europa"],d:"Após a alta de 25 pb em 10/09, mercado vê discurso mais duro."},
+{l:"Eleições de meio de mandato nos EUA",v:"03/11",c:"",k:"neutral",s:"Polymarket / Bitquery",ev:"2026-11-03",t:["EUA","Eleições"],d:"Disputa pela Câmara e pelo Senado; Polymarket: Democratas varrem 62%."},
+{l:"Arkema: resultados do 3T26",v:"05/11",c:"",k:"neutral",s:"Arkema / Investing.com",ev:"2026-11-05",t:["Empresas","Europa"],d:"Próximo balanço trimestral da química francesa."},
+{l:"CVC: resultados do 3T26 (previsto)",v:"11/11",c:"",k:"neutral",s:"Investing.com",ev:"2026-11-11",t:["Empresas","Brasil"],d:"Data estimada para o balanço da operadora de turismo."},
+{l:"Eleições gerais na Espanha",v:"29/11",c:"",k:"neutral",s:"Yahoo Finance / PolyKal",ev:"2026-11-29",t:["Europa","Eleições"],d:"Eleição antecipada convocada por Pedro Sánchez. Polymarket: PP 85,5%, PSOE 14,5%."}],
+dre:[
+{"l": "Arkema", "t": ["Arkema"], "cur": "€ milhões", "per": "2T26 · divulgado em 30/07/2026 · Arkema", "rows": [["Vendas", "2.427,8", "n/d", "neutral", ""], ["EBITDA", "391,0", "+7,4%", "up", "Margem EBITDA: 16,1%"], ["Lucro líquido (grupo)", "65,7", "+39,2%", "up", ""], ["Lucro líquido ajustado", "129,0", "+7,8%", "up", ""], ["Dívida líquida + híbridos", "3.605", "n/d", "neutral", ""]]},
+{"l": "FEMSA", "t": ["FEMSA"], "cur": "Ps milhões", "per": "2T26 · divulgado em 28/07/2026 · FEMSA", "rows": [["Receita", "231.002", "+9,3%", "up", ""], ["Resultado operacional", "19.110", "+7,2%", "up", "Margem operacional: 8,3%"], ["Lucro líquido consolidado", "9.221", "+64,9%", "up", ""], ["OXXO México · receita", "—", "+11,8%", "up", ""], ["OXXO México · resultado operacional", "—", "+12,3%", "up", ""]]},
+{"l": "CVC Corp", "t": ["CVC"], "cur": "R$ milhões", "per": "2T26 · divulgado em 12/08/2026 · CVC", "rows": [["Receita líquida", "319,5", "-6,5%", "down", ""], ["EBITDA ajustado", "84,9", "-8,1%", "down", "Margem EBITDA ajustada: 26,6%"], ["Lucro líquido ajustado", "-51,3", "piorou", "down", "2T25: -15,9"], ["Lucro líquido contábil", "-72,5", "piorou", "down", "2T25: -46,4"], ["Reservas confirmadas", "4.090", "+0,2%", "neutral", ""]]}],
+ranking:[
+{"l": "5 maiores altas", "t": ["Altas"], "side": "up", "d": "PRIO3 ABEV3 EMBJ3 BRAV3 PETR4", "rows": [["PRIO3", "Prio", "R$ 66,76", 3.58, "Petroleiras lideraram as altas: o Brent vem subindo nos últimos dias com a extensão do confronto com o Irã, o que favorece produtoras de petróleo."], ["ABEV3", "Ambev", "R$ 16,32", 2.06, "As fontes consultadas não apontam gatilho específico. Hipótese: papel defensivo e pouco alavancado, que se saiu melhor num dia de juros futuros em alta e realização de lucros."], ["EMBJ3", "Embraer", "R$ 91,01", 2.02, "Sem notícia específica encontrada. Hipótese: exportadora com receita em dólar, favorecida pela alta de 0,71% da moeda no dia (R$ 5,02)."], ["BRAV3", "Brava Energia", "R$ 20,91", 1.65, "Petroleira: acompanhou a alta do Brent e dos demais papéis do setor (Prio, PetroReconcavo e Petrobras)."], ["PETR4", "Petrobras PN", "R$ 56,85", 1.52, "Subiu com o petróleo em alta e limitou a queda do Ibovespa. A ON (PETR3) avançou 1,14%."]]},
+{"l": "5 maiores baixas", "t": ["Baixas"], "side": "down", "d": "VAMO3 YDUQ3 LREN3 MGLU3 COGN3", "rows": [["VAMO3", "Vamos", "R$ 6,09", -11.22, "Locadora de caminhões, intensiva em capital e alavancada: foi a mais penalizada pela alta dos juros futuros (DIs subiram mais de 20 pontos-base) depois que pesquisas apontaram empate técnico no 2º turno (BTG/Nexus: Flávio 48% x Lula 45%)."], ["YDUQ3", "Yduqs", "R$ 13,32", -8.45, "Educação alavancada e sensível a juros: caiu com os DIs em alta e a cautela eleitoral. As fontes atribuem a queda ao ambiente de juros, sem fato específico da empresa."], ["LREN3", "Lojas Renner", "R$ 13,85", -8.03, "Varejo de moda: o setor lidera as perdas quando os juros futuros sobem, porque o crédito ao consumidor fica mais caro. O Focus elevou o IPCA de 2026 para 5,22%."], ["MGLU3", "Magazine Luiza", "R$ 11,36", -7.04, "Varejista alavancada e dependente de crédito ao consumidor: pressionada pela alta dos DIs e pela revisão da inflação (Focus: 5,22% em 2026)."], ["COGN3", "Cogna", "R$ 2,99", -5.97, "Educação: caiu junto com o setor em dia de juros em alta e cautela com o 2º turno. Ações de varejo e consumo alavancadas lideraram as perdas."]]}],
+predicoes:[
+{l:"BR · Flávio (2º turno)",v:"78,5%",c:"último dado publicado",k:"up",s:"Exame / Diário do Poder · 22/10",t:["Brasil","Política"],d:"Reportagens de 22/10 citam 78,5% na Polymarket. Probabilidade implícita em mercado preditivo, não é pesquisa eleitoral nem recomendação."},
+{l:"BR · Lula (2º turno)",v:"—",c:"cotação não verificada",k:"neutral",s:"Polymarket · atualização pendente",t:["Brasil","Política"],d:"Não inferir como complemento: a cotação do contrato não foi confirmada em fonte direta."},
+{l:"ES · Feijóo próximo PM",v:"80,5%",c:"-0,5 p.p. vs. 06/10 (81%)",k:"down",s:"Polymarket · 13/10",t:["Espanha","Política"],d:"Pedro Sánchez convocou eleições gerais antecipadas para 29/11/2026. Probabilidade implícita no preço do contrato; não é pesquisa nem recomendação."},
+{l:"ES · Sánchez segue PM",v:"15,3%",c:"+2,3 p.p. vs. 06/10 (13%)",k:"up",s:"Polymarket · 13/10",t:["Espanha","Política"],d:"Chance de o atual primeiro-ministro liderar o próximo governo."},
+{l:"ES · PP mais votado",v:"85,5%",c:"+3,5 p.p. vs. ~06/10 (82%)",k:"up",s:"Polymarket · 13/10",t:["Espanha","Política"],d:"Pesquisa Sigma Dos (El Mundo) projeta 203 cadeiras para PP e Vox juntos, em 350."},
+{l:"ES · PSOE mais votado",v:"14,5%",c:"-2,5 p.p. vs. ~06/10 (17%)",k:"down",s:"Polymarket · 13/10",t:["Espanha","Política"],d:"Resolução em 30/11, depois da votação de 29/11."},
+{l:"ES · Bola de Ouro: Yamal",v:"27%",c:"-16% no preço desde 01/10",k:"down",s:"Polymarket · out/2026",t:["Espanha","Esporte"],d:"A Espanha foi campeã da Copa do Mundo 2026. Harry Kane lidera; Kane e Yamal somam 94% das chances. Probabilidade implícita no preço do contrato; não é pesquisa nem recomendação."},
+{l:"AR · Milei vence 2027",v:"55,5%",c:"+1,5 p.p. vs. 01/10 (54%)",k:"up",s:"Polymarket · 12/10",t:["Argentina","Política"],d:"Martín Menem confirmou em 11/10 que Milei disputa a reeleição. Eleição em 24/10/2027. Probabilidade implícita no preço do contrato; não é pesquisa nem recomendação."},
+{l:"AR · Kicillof vence 2027",v:"32,5%",c:"-0,5 p.p. vs. 01/10 (33%)",k:"down",s:"Polymarket · 12/10",t:["Argentina","Política"],d:"Governador de Buenos Aires e principal nome do peronismo no mercado."},
+{l:"AR · Massa vence 2027",v:"7,6%",c:"+1,0 p.p. vs. 01/10 (6,6%)",k:"up",s:"Polymarket · 12/10",t:["Argentina","Política"],d:"Terceiro colocado no mercado da eleição presidencial."},
+{l:"AR · MLS Cup: Inter Miami",v:"15%",c:"-13 p.p. vs. jul/2026 (28%)",k:"down",s:"Polymarket · 09/10",t:["Argentina","Esporte"],d:"Nashville SC lidera com 18,1%. Messi segue como destaque do Inter Miami."}]};
+data.pib=[
+["Brasil","Américas",6.09,20.15,59.74,2025,7.7,1],
+["Argentina","Américas",5.53,22.87,56.15,2025,6.0,0],
+["Espanha","Europa",2.68,19.58,68.36,2025,15.3,0],
+["Itália","Europa",2.07,22.64,64.51,2025,10.5,1],
+["EUA","Américas",0.94,17.58,76.26,2021,8.9,1],
+["China","Ásia e Oceania",6.66,35.64,57.70,2025,8.8,1],
+["México","Américas",3.88,30.56,58.90,2025,14.8,1],
+["Canadá","Américas",1.93,27.35,64.11,2022,null,0],
+["Alemanha","Europa",0.87,25.16,64.46,2025,11.3,1],
+["França","Europa",1.40,16.78,70.85,2025,9.1,1],
+["Reino Unido","Europa",0.64,16.49,73.10,2025,null,0],
+["Rússia","Europa",3.06,29.67,58.88,2025,null,0],
+["Turquia","Europa",5.21,24.02,59.42,2025,null,0],
+["Japão","Ásia e Oceania",0.96,26.78,71.43,2024,7.7,1],
+["Índia","Ásia e Oceania",16.23,25.20,49.34,2025,null,0],
+["Coreia do Sul","Ásia e Oceania",1.46,34.33,57.23,2025,null,0],
+["Indonésia","Ásia e Oceania",13.10,38.71,43.94,2025,null,0],
+["Arábia Saudita","Ásia e Oceania",2.59,42.97,48.93,2025,null,0],
+["Austrália","Ásia e Oceania",2.27,23.89,67.49,2025,null,0]
+].map(([l,r,ag,ind,sv,y,tu,te])=>{const n=x=>x.toFixed(1).replace(".",",");return {l,ag,ind,sv,y,tu,te,t:[r],v:"Agro "+n(ag)+"% · Indústria "+n(ind)+"% · Serviços "+n(sv)+"%",s:"Banco Mundial · dados de "+y,d:"Composição do PIB de "+l}});
+const filters={pib:["Todos","Américas","Europa","Ásia e Oceania"],dashboard:["Resumo","Câmbio","EUA","Juros","Commodities","Inflação","Ibovespa","Selic","Polymarket"],brasil:["Todos","Índices","Câmbio","Juros"],bolsa:["Todos","Brasil","EUA","Europa","Espanha","Ásia"],etfs:["Todos","Global","EUA","Brasil","Dividendos","Renda Fixa","Ouro","Cripto"],cambio:["Todos","USD","EUR","Outras"],juros:["Todos","Selic","DI","EUA","Europa"],commodities:["Todas","Energia","Metais","Agrícolas"],fundos:["Todos","Ações","Dividendos","Renda Fixa","Cripto","Exterior"],noticias:["Todas","Brasil","Mundo","Mercados","Espanha","Europa"],empresas:["Todas","Arkema","FEMSA","CVC"],predicoes:["Todos","Brasil","Espanha","Argentina","Política","Esporte"],agenda:["Todos","Brasil","EUA","Europa","Empresas","Eleições"],dre:["Todas","Arkema","FEMSA","CVC"],ranking:["Todos","Altas","Baixas"]};
+const state={},nav=document.getElementById("nav"),main=document.getElementById("main");
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+var qs={};
+sections.forEach(([id,t])=>{main.insertAdjacentHTML("beforeend",`<section class="view" id="view-${id}"><div class="crumb"></div><h2>${t}</h2><div class="date">Atualização da base: 22/10/2026 · cada item informa a data e a fonte do dado; quando não foi possível verificar um valor mais recente, a última referência está identificada</div><div class="filters" role="group" aria-label="Filtros"></div><div class="tools"><input type="search" class="q" placeholder="Buscar nesta aba…" aria-label="Buscar nesta aba"><span class="count" aria-live="polite"></span></div><div class="grid"></div></section>`)});
+document.querySelectorAll(".view").forEach(v=>{const id=v.id.slice(5),q=v.querySelector(".q");q.oninput=()=>{qs[id]=q.value;draw(id)}});
+const GROUPS=[["dashboard","📊 Dashboard",["dashboard"]],["ativos","📈 Ativos",["bolsa","ranking","etfs","fundos","empresas","dre"]],["macro","🌎 Macro e câmbio",["brasil","pib","cambio","juros","commodities","agenda"]],["noticias","📰 Notícias",["noticias"]],["predicoes","🎯 Prediction",["predicoes"]]];
+const TITLE=Object.fromEntries(sections),subnav=document.getElementById("subnav"),lastSub={};
+const groupOf=id=>GROUPS.find(g=>g[2].includes(id))||GROUPS[0];
+const SHORT={dashboard:"Painel",ativos:"Ativos",macro:"Macro",noticias:"Notícias",predicoes:"Prediction"};
+nav.innerHTML=GROUPS.map(g=>{const [ic,...r]=g[1].split(" ");return `<button data-group="${g[0]}" aria-current="false"><span class="ic" aria-hidden="true">${ic}</span><span class="tx l">${r.join(" ")}</span><span class="tx s">${SHORT[g[0]]}</span></button>`}).join("");
+const TAPE=[["Ibovespa","204.120,12","-1,15%","down"],["USD/BRL","5,038","+0,22%","up"],["S&P 500","7.663,43","-1,21%","down"],["Nasdaq","26.008,86","-2,60%","down"],["Dow","52.867,98","+0,02%","up"],["Brent · 22/10","US$ 113,23","+4,05%","up"],["Treasury 10Y · 22/10","4,953%","-19 pb","down"],["IPCA 12m","4,58%","set/26","up"],["Ibex 35 · 21/10","19.323,50","+1,21%","up"],["BOVA11 · 22/10","200,96","-1,25%","down"]];
+const tp=TAPE.map(t=>`<span><b>${t[0]}</b>${t[1]} <em class="${t[3]}" style="font-style:normal">${t[2]}</em></span>`).join("");document.getElementById("tape").innerHTML=tp+tp;
+const isAll=f=>/^(Todos|Todas|Resumo)$/.test(f);
+
+const fmtBR=(v,d=2)=>v.toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const PAL=["var(--accent)","var(--accent2)","var(--up)","var(--warn)","var(--down)"];
+const N=null,L4=["01/10","02/10","05/10","06/10","07/10","08/10","09/10"];
+const USD10=[5.0370,5.0227,5.0204,5.0380];
+const DASH={"Resumo":[["Brasil",["m_usd","m_ibov"]],["EUA",["m_sp","m_ust"]],["Commodities",["m_brent"]],["Inflação e juros",["m_ipca","m_selic"]]],"Polymarket":[["Eleição no Brasil",["m_flavio"]],["Eleição na Argentina (2027)",["m_milei"]],["Eleição na Espanha",["m_feijoo"]]]};
+const CH={
+"Câmbio":{t:"Dólar e euro frente ao real (R$)",sub:"Cotações de 19/10 a 22/10 · Yahoo Finance; USD/BRL de fechamento do mercado local em 22/10",L:["19/10","20/10","21/10","22/10"],f:v=>"R$ "+fmtBR(v,4),S:[{n:"USD/BRL",d:[5.0370,5.0227,5.0204,5.0523]},{n:"EUR/BRL",d:[5.6465,5.6370,5.6402,5.6682]}]},
+"EUA":{t:"Wall Street — S&P 500, Nasdaq e Dow",sub:"Fechamentos de 16/10 a 22/10 · Yahoo Finance",L:["16/10","19/10","20/10","21/10","22/10"],norm:1,f:v=>fmtBR(v,2),S:[{n:"S&P 500",d:[7659.44,7690.73,7712.57,7757.17,7663.43]},{n:"Nasdaq",d:[26140.03,26430.89,26424.82,26702.86,26008.86]},{n:"Dow Jones",d:[52002.41,51966.03,52495.88,52856.09,52867.98]}]},
+"Juros":{t:"Treasury de 10 anos (%)",sub:"Fechamentos de 16/10 a 22/10 · Yahoo Finance",L:["16/10","19/10","20/10","21/10","22/10"],f:v=>fmtBR(v,2)+"%",S:[{n:"Treasury 10Y",d:[5.098,5.136,5.117,5.146,4.953]}]},
+"Inflação":{t:"Inflação do Brasil — IPCA ao longo dos anos (%)",sub:"IPCA acumulado no ano (IBGE), 2015 a 2025 · 2026*: acumulado em 12 meses até set/2026 (4,58%, acima do teto de 4,5%) · meta de inflação do CMN",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,2)+"%",S:[{n:"IPCA",d:[10.67,6.29,2.95,3.75,4.31,4.52,10.06,5.79,4.62,4.83,4.26,4.58]},{n:"Meta de inflação",d:[4.5,4.5,4.5,4.5,4.25,4.0,3.75,3.5,3.25,3.0,3.0,3.0]}]},
+"Ibovespa":{t:"Ibovespa — fechamento de cada ano (pontos)",sub:"B3, 2015 a 2025 · 2026*: fechamento de 22/10 (204.120)",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,0)+" pts",S:[{n:"Ibovespa",d:[43349.96,60227.28,76402.08,87887.27,115645.34,119017.24,104822.44,109734.60,134185.24,120283.40,161125.37,204120.12]}]},
+"Selic":{t:"Selic — meta no fim de cada ano (% a.a.)",sub:"Fim de cada ano (Copom) · 2026*: nível atual de 13,75%",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,2)+"%",S:[{n:"Selic",d:[14.25,13.75,7.00,6.50,4.50,2.00,9.25,13.75,11.75,12.25,15.00,13.75]}]},
+"m_usd":{t:"Dólar (USD/BRL)",sub:"Cotações de 19/10 a 22/10 · último valor é fechamento do mercado local",L:["19/10","20/10","21/10","22/10"],f:v=>"R$ "+fmtBR(v,4),S:[{n:"USD/BRL",d:USD10}]},
+"m_ibov":{t:"Ibovespa (pontos)",sub:"Fechamento de cada ano · 2026*: 22/10",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,0)+" pts",S:[{n:"Ibovespa",d:[43349.96,60227.28,76402.08,87887.27,115645.34,119017.24,104822.44,109734.60,134185.24,120283.40,161125.37,204120.12]}]},
+"m_sp":{t:"S&P 500",sub:"Fechamento diário · 16/10 a 22/10",L:["16/10","19/10","20/10","21/10","22/10"],f:v=>fmtBR(v,2),S:[{n:"S&P 500",d:[7659.44,7690.73,7712.57,7757.17,7663.43]}]},
+"m_ust":{t:"Treasury de 10 anos (%)",sub:"Fechamento diário · 16/10 a 22/10",L:["16/10","19/10","20/10","21/10","22/10"],f:v=>fmtBR(v,2)+"%",S:[{n:"Treasury 10Y",d:[5.098,5.136,5.117,5.146,4.953]}]},
+"m_brent":{t:"Petróleo Brent (US$)",sub:"Fechamento diário · 19/10 a 22/10 · Yahoo Finance",L:["19/10","20/10","21/10","22/10"],f:v=>"US$ "+fmtBR(v,2),S:[{n:"Brent",d:[109.55,108.79,108.82,113.23]}]},
+"m_ipca":{t:"IPCA x meta (%)",sub:"IPCA do ano · 2026*: 12 meses até set",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,2)+"%",S:[{n:"IPCA",d:[10.67,6.29,2.95,3.75,4.31,4.52,10.06,5.79,4.62,4.83,4.26,4.58]},{n:"Meta",d:[4.5,4.5,4.5,4.5,4.25,4.0,3.75,3.5,3.25,3.0,3.0,3.0]}]},
+"m_selic":{t:"Selic (% a.a.)",sub:"Meta no fim de cada ano · 2026*: atual",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,2)+"%",S:[{n:"Selic",d:[14.25,13.75,7.00,6.50,4.50,2.00,9.25,13.75,11.75,12.25,15.00,13.75]}]},
+"m_flavio":{t:"Flávio Bolsonaro no 2º turno (%)",sub:"Polymarket · 04/10 a 22/10 (último valor reportado por Exame)",L:["04/10","08/10","22/10"],f:v=>fmtBR(v,1)+"%",S:[{n:"Flávio",d:[63,84.7,78.5]}]},
+"m_milei":{t:"Milei vence em 2027 (%)",sub:"Polymarket · 01/10 a 12/10",L:["01/10","05/10","12/10"],f:v=>fmtBR(v,1)+"%",S:[{n:"Milei",d:[54,55.5,55.5]}]},
+"m_feijoo":{t:"Feijóo como próximo PM (%)",sub:"Polymarket · 06/10 a 13/10",L:["06/10","13/10"],f:v=>fmtBR(v,1)+"%",S:[{n:"Feijóo",d:[81,80.5]}]},
+"m_fed":{t:"Fed sem mudança em outubro (%)",sub:"Polymarket · 30/09 a 10/10",L:["30/09","07/10","10/10"],f:v=>fmtBR(v,1)+"%",S:[{n:"Sem mudança",d:[61,82.5,84]}]},
+"m_dem":{t:"Democratas varrem o Congresso (%)",sub:"Polymarket · 21/09 a 10/10",L:["21/09","10/10"],f:v=>fmtBR(v,1)+"%",S:[{n:"Democratas",d:[60,62]}]},
+"m_btc":{t:"Bitcoin cai a US$ 80 mil em outubro (%)",sub:"Polymarket · 11/10 a 12/10",L:["11/10","12/10"],f:v=>fmtBR(v,1)+"%",S:[{n:"Bitcoin",d:[65,52]}]},
+"Commodities":{t:"Petróleo Brent (US$/barril)",sub:"Fechamento do contrato futuro · 19/10 a 22/10 · Yahoo Finance",L:["19/10","20/10","21/10","22/10"],f:v=>"US$ "+fmtBR(v,2),S:[{n:"Brent",d:[109.55,108.79,108.82,113.23]}]}};
+const chartInner=()=>'<h3></h3><div class="sub"></div><div class="chartwrap"></div><div class="leg"></div>';
+function mountChart(g,key){
+ const sec=DASH[key];
+ if(sec){g.innerHTML=sec.map(([h,ks])=>`<h3 class="sec">${h}</h3><div class="minis">${ks.map(k=>`<div class="chartcard mini" data-k="${k}">${chartInner()}</div>`).join("")}</div>`).join("");
+  sec.forEach(([h,ks])=>ks.forEach(k=>plot(g.querySelector(`[data-k="${k}"]`),CH[k],true)));return}
+ g.innerHTML=`<div class="chartcard" data-k="${key}">${chartInner()}</div>`;plot(g.firstChild,CH[key]||CH["Câmbio"],false);
+}
+function plot(root,c,small){
+ const w=root.querySelector(".chartwrap"),W=Math.max(240,Math.round(w.clientWidth||300)),H=small?190:(W<460?300:340),pl=small?44:52,pr=14,pt=12,pb=26;
+ const S=c.S.map((x,i)=>{const b=x.d.find(v=>v!==null);return {n:x.n,c:PAL[i%PAL.length],v:x.d.map(y=>y===null?null:(c.norm?y/b*100:y))}});
+ const all=S.flatMap(x=>x.v).filter(v=>v!==null),mn=Math.min(...all),mx=Math.max(...all),pad=(mx-mn)*.12||1,lo=mn-pad,hi=mx+pad,n=c.L.length;
+ const X=i=>pl+i*(W-pl-pr)/(n-1),Y=v=>pt+(hi-v)/(hi-lo)*(H-pt-pb),dec=hi-lo<3?2:c.norm?1:hi-lo>50?0:2;
+ let g2="";const gl=small?3:5;for(let k=0;k<gl;k++){const v=lo+(hi-lo)*k/(gl-1),y=Y(v);g2+=`<line class="gl" x1="${pl}" x2="${W-pr}" y1="${y}" y2="${y}"/><text class="ax" x="${pl-6}" y="${y+4}" text-anchor="end">${fmtBR(v,dec)}</text>`}
+ const step=Math.ceil(n/(small?4:6));c.L.forEach((l,i)=>{if((i%step===0&&n-1-i>=step)||i===n-1)g2+=`<text class="ax" x="${X(i)}" y="${H-7}" text-anchor="middle">${l}</text>`});
+ let ln="";S.forEach((x,si)=>{const pts=[];x.v.forEach((v,i)=>{if(v!==null)pts.push([X(i),Y(v)])});if(!pts.length)return;
+  const d="M"+pts.map(q=>q.join(",")).join("L"),last=pts[pts.length-1],gid="ag"+Math.random().toString(36).slice(2,7);
+  if(S.length===1)ln+=`<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:${x.c}" stop-opacity=".32"/><stop offset="1" style="stop-color:${x.c}" stop-opacity="0"/></linearGradient></defs><path class="ar" d="${d}L${last[0]},${H-pb}L${pts[0][0]},${H-pb}Z" style="fill:url(#${gid})"/>`;
+  ln+=`<path class="ln" pathLength="1" style="stroke:${x.c};animation-delay:${.15+si*.18}s" d="${d}"/>`+pts.map((q,pi)=>pts.length<=4||pi===pts.length-1?`<circle class="dot" cx="${q[0]}" cy="${q[1]}" r="${pi===pts.length-1?4.5:3}" style="fill:${x.c};stroke:var(--card);stroke-width:2"/>`:"").join("")});
+ w.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${c.t}">${g2}${ln}<line class="gl cur" y1="${pt}" y2="${H-pb}" style="opacity:0"/></svg><div class="tip"></div>`;
+ root.querySelector("h3").textContent=c.t;root.querySelector(".sub").textContent=c.sub;
+ root.querySelector(".leg").innerHTML=S.length>1?S.map(x=>`<span><i style="background:${x.c}"></i>${x.n}</span>`).join(""):"";
+ const svg=w.querySelector("svg"),tip=w.querySelector(".tip"),cur=w.querySelector(".cur");
+ svg.onpointermove=e=>{const r=svg.getBoundingClientRect(),px=(e.clientX-r.left)/r.width*W;let i=Math.round((px-pl)/((W-pl-pr)/(n-1)));i=Math.max(0,Math.min(n-1,i));
+  cur.setAttribute("x1",X(i));cur.setAttribute("x2",X(i));cur.style.opacity=1;
+  const rows=c.S.map((x,si)=>x.d[i]===null?"":`<span style="color:${S[si].c}">●</span> ${x.n}: ${c.norm?fmtBR(S[si].v[i],2)+" ("+fmtBR(x.d[i],x.d[i]>1000?2:4)+")":c.f(x.d[i])}`).filter(Boolean);
+  tip.innerHTML=`<b>${c.L[i]}</b><br>`+rows.join("<br>");
+  const ys=S.map(x=>x.v[i]).filter(v=>v!==null);tip.style.left=(X(i)/W*r.width)+"px";tip.style.top=(Y(Math.max(...ys))/H*r.height)+"px";tip.style.opacity=1};
+ svg.onpointerleave=()=>{tip.style.opacity=0;cur.style.opacity=0};
+}
+function tipOf(i,id){const max=id==="noticias"?150:110;let t=(i.d||"").replace(/\s*Probabilidade implícita no preço do contrato; não é pesquisa nem recomendação\./,"").trim();
+ if(!t)return i.l+" — "+i.v+(i.c&&!i.p?", "+i.c:"")+" · "+i.s;
+ const ss=t.split(/(?<=[.!?])\s+/);let out="";for(const x of ss){if((out+" "+x).trim().length<=max)out=(out+" "+x).trim();else break}
+ if(!out)out=ss[0].slice(0,max-1).replace(/\s+\S*$/,"")+"…";return out}
+const gt=document.createElement("div");gt.id="gtip";gt.setAttribute("role","tooltip");document.body.appendChild(gt);
+function showTip(el){const t=el.dataset.tip;if(!t)return;gt.textContent=t;gt.classList.add("on");const r=el.getBoundingClientRect(),w=gt.offsetWidth,h=gt.offsetHeight;let x=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2)),y=r.top-h-8;if(y<8)y=r.bottom+8;gt.style.left=x+"px";gt.style.top=y+"px"}
+function hideTip(){gt.classList.remove("on")}
+document.addEventListener("pointerover",e=>{const c=e.target.closest(".card[data-tip]");if(c)showTip(c)});
+document.addEventListener("pointerout",e=>{if(e.pointerType==="touch")return;if(e.target.closest(".card[data-tip]"))hideTip()});
+document.addEventListener("focusin",e=>{const c=e.target.closest(".card[data-tip]");if(c)showTip(c)});
+document.addEventListener("focusout",hideTip);addEventListener("scroll",hideTip,{passive:true});
+function draw(id){
+ const s=document.getElementById("view-"+id),f=s.querySelector(".filters"),g=s.querySelector(".grid"),cur=state[id]||filters[id][0];
+ f.innerHTML="";
+ (filters[id]||[]).forEach(x=>{const b=document.createElement("button");b.textContent=x;b.className=x===cur?"active":"";b.setAttribute("aria-pressed",x===cur);b.onclick=()=>{state[id]=x;draw(id)};f.appendChild(b)});
+ let items=(data[id]||[]).filter(i=>id==="noticias"||!(i.p||i.c==="Variação indisponível"));
+ if(!isAll(cur))items=items.filter(i=>(i.t||[]).includes(cur));
+ else if(id==="dashboard")items=items.slice(0,3);
+ const q=(qs[id]||"").trim().toLowerCase();if(q)items=items.filter(i=>[i.l,i.v,i.d,i.s].join(" ").toLowerCase().includes(q));
+ if(id==="agenda"){const t0=new Date();t0.setHours(0,0,0,0);items=items.map(i=>{const d=Math.round((new Date(i.ev+"T00:00:00")-t0)/864e5);return {...i,days:d,c:d===0?"hoje":d===1?"amanhã":"em "+d+" dias",k:"neutral"}}).filter(i=>i.days>=0).sort((a,b)=>a.days-b.days)}
+ {const ct=s.querySelector(".count");if(ct)ct.textContent=items.length+(items.length===1?" item":" itens")}
+ if(id==="predicoes")s.querySelector(".date").textContent="Consulta de 22/10/2026 · valor brasileiro citado por Exame e Diário do Poder como cotação da Polymarket; demais mercados mantêm a data indicada em cada card";
+ if(id==="empresas"||id==="dre")s.querySelector(".date").textContent="Últimos resultados listados: 2T26 · atualização consultada em 22/10/2026; nenhum resultado 3T26 dessas empresas foi confirmado nas fontes consultadas";
+ if(id==="fundos")s.querySelector(".date").textContent="Cotações de ETFs: fechamentos de 22/10/2026 quando disponíveis; fundos de investimento mantêm a data de referência indicada em cada card";
+ if(id==="ranking"){s.querySelector(".date").textContent="Ranking histórico: fechamento de 13/10/2026 · não representa o pregão atual · fonte indicada na análise";
+  const note='<div class="rk-note" style="grid-column:1/-1"><b>Por que o Ibovespa caiu 1,04%?</b> Realização de lucros após o recorde, juros futuros em alta (DIs subiram mais de 20 pb) e pesquisas de empate técnico no 2º turno. Outras ações também caíram mais de 5%: C&A (-5,96%), Localiza (-5,72%), Natura (-5,50%) e Cosan (-5,37%). <span>Passe o mouse ou toque em uma linha para ver o motivo.</span></div>';
+  g.innerHTML=note+'<div class="rkwrap">'+items.map((c,n)=>{const mx=Math.max(...c.rows.map(r=>Math.abs(r[3])));return `<section class="rkcol s-${c.side}" style="--i:${n}"><h3>${c.side==="up"?"▲":"▼"} ${esc(c.l)}</h3><ol>${c.rows.map((r,k)=>`<li class="rkrow" tabindex="0" aria-label="${esc(r[0])}: ${esc(r[4])}"><span class="pos">${k+1}</span><div class="who"><b>${esc(r[0])}</b><small>${esc(r[1])}</small></div><div class="bar"><i style="width:${Math.max(6,Math.abs(r[3])/mx*100)}%"></i></div><div class="px">${esc(r[2])}</div><div class="chg c-${c.side}">${r[3]>0?"+":""}${fmtBR(r[3],2)}%</div><span class="info" aria-hidden="true">ⓘ</span><div class="tipbox" role="tooltip">${esc(r[4])}</div></li>`).join("")}</ol></section>`}).join("")+'</div>';return}
+ if(id==="dre"){g.innerHTML=items.map((co,n)=>`<div class="chartcard dre" style="grid-column:1/-1;--i:${n}"><h3>${esc(co.l)} <small>${esc(co.cur)} · ${esc(co.per)}</small></h3><div class="tw"><table><thead><tr><th>Indicador</th><th>2T26</th><th>AH % (a/a)</th><th>Referência</th></tr></thead><tbody>${co.rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="num">${esc(r[1])}</td><td class="num ${r[3]}">${esc(r[2])}</td><td class="ref">${esc(r[4])}</td></tr>`).join("")}</tbody></table></div></div>`).join("");return}
+ if(id==="pib"&&items.length){
+  s.querySelector(".date").textContent="Composição do PIB por setor · Banco Mundial · % do PIB";
+  const f=v=>fmtBR(v,1)+"%",C=2*Math.PI*78;
+  const SEG=[["ag","Agro"],["ind","Indústria"],["sv","Serviços"],["rs","Impostos e ajustes"]];
+  const mk=c=>{const v={ag:c.ag,ind:c.ind,sv:c.sv};v.rs=Math.max(0,100-v.ag-v.ind-v.sv);return v};
+  const sel=items.find(c=>c.l===state.pibSel)||items[0],V=mk(sel),tot=V.ag+V.ind+V.sv+V.rs;let off=0;
+  const arcs=SEG.map(([k,nm])=>{const share=V[k]/tot*C,len=Math.max(0,share-2),el=`<circle class="c-${k}" r="78" cx="100" cy="100" fill="none" style="stroke:var(--c)" stroke-width="24" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 100 100)"><title>${nm}: ${f(V[k])}</title></circle>`;off+=share;return el}).join("");
+  const hero=`<div class="phero"><svg viewBox="0 0 200 200" role="img" aria-label="Composição do PIB: ${esc(sel.l)}">${arcs}<text x="100" y="98" text-anchor="middle" class="pc1">${esc(sel.l)}</text><text x="100" y="117" text-anchor="middle" class="pc2">PIB · ${sel.y}</text></svg><ul class="pl">${SEG.map(([k,nm])=>`<li class="c-${k}"><i></i><span>${nm}</span><b>${f(V[k])}</b></li>`).join("")}</ul>${sel.tu==null?"":`<div class="ptur">Turismo: ${sel.te?"≈":""}${f(sel.tu)} do PIB (WTTC), parte de serviços e outros setores</div>`}</div>`;
+  const rows=items.map(c=>{const v=mk(c),tt=v.ag+v.ind+v.sv+v.rs;return `<div class="pr${c===sel?" on":""}" role="button" tabindex="0" data-n="${esc(c.l)}" title="Agro ${f(v.ag)} · Indústria ${f(v.ind)} · Serviços ${f(v.sv)} · Impostos e ajustes ${f(v.rs)}"><span class="pn">${esc(c.l)}</span><div class="pb">${SEG.map(([k])=>`<span class="c-${k}" style="width:${v[k]/tt*100}%"></span>`).join("")}</div></div>`}).join("");
+  const list=`<div class="plist"><div class="plg"><span class="c-ag"><i></i>Agro</span><span class="c-ind"><i></i>Indústria</span><span class="c-sv"><i></i>Serviços</span><span class="c-rs"><i></i>Impostos</span></div>${rows}</div>`;
+  g.innerHTML=`<div class="pibx">${hero}${list}</div><details class="pinfo"><summary>Como ler</summary><p>Cada barra e o donut somam 100% do PIB. Agro, indústria e serviços são o valor adicionado medido pelo Banco Mundial; “Impostos e ajustes” é a diferença até 100% (impostos sobre produtos, líquidos de subsídios, e ajustes estatísticos). O ano varia por país: EUA 2021, Canadá 2022, Japão 2024 e os demais 2025. Turismo não é um setor próprio nas contas nacionais, por isso aparece só como nota (WTTC; ≈ = estimado com o PIB nominal de 2024).</p></details>`;
+  g.querySelectorAll(".pr").forEach(r=>{const go=()=>{state.pibSel=r.dataset.n;draw("pib")};r.onclick=go;r.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
+  return}
+ if(["brasil","bolsa","etfs","cambio","juros","commodities","fundos","empresas","noticias","agenda","predicoes"].includes(id)&&items.length){
+  const pill=i=>i.c?`<span class="pil ${i.k||"neutral"}">${esc(i.c)}</span>`:"";
+  let h;
+  if(id==="noticias")h=`<div class="nlist">${items.map(i=>`<article class="nw"><div class="nm">${(i.t||[]).map(x=>`<em>${esc(x)}</em>`).join("")}<span>${esc(i.s)}</span></div><h3>${esc(i.l)}</h3><p class="nv">${esc(i.v)}</p>${i.d?`<p class="nd">${esc(i.d)}</p>`:""}</article>`).join("")}</div>`;
+  else if(id==="agenda")h=`<div class="alist">${items.map(i=>{const d=new Date(i.ev+"T00:00:00");return `<div class="ag"><div class="ad"><b>${d.getDate()}</b><span>${d.toLocaleDateString("pt-BR",{month:"short"}).replace(".","")}</span></div><div><div class="at">${esc(i.l)}</div><div class="am">${esc(i.v)} · ${esc(i.c)}</div>${i.d?`<div class="an">${esc(i.d)}</div>`:""}</div></div>`}).join("")}</div>`;
+  else if(id==="predicoes")h=`<div class="pqs">${items.map(i=>{const p=parseFloat(String(i.v).replace(",","."))||0;return `<div class="pq"><div class="pt"><span>${esc(i.l)}</span><b>${esc(i.v)}</b></div><div class="pbr"><i style="width:${Math.min(100,p)}%"></i></div><div class="pm">${pill(i)}<span>${esc(i.s)}</span></div>${i.d?`<details><summary>Detalhes</summary><p>${esc(i.d)}</p></details>`:""}</div>`}).join("")}</div>`;
+  else h=`<div class="qlist">${items.map(i=>`<div class="qr${i.d?" x":""}${id==="empresas"?" open":""}"${i.d?' tabindex="0" role="button"':""}><div class="qn"><b>${esc(i.l)}</b><small>${esc(i.s)}${i.d1?" · D-1":""}</small></div><div class="qv">${esc(i.v)}</div>${pill(i)}${i.d?`<div class="qd">${esc(i.d)}</div>`:""}</div>`).join("")}</div>`;
+  g.innerHTML=h;
+  g.querySelectorAll(".qr.x").forEach(r=>{const go=()=>r.classList.toggle("open");r.onclick=go;r.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
+  return}
+ g.innerHTML=items.length?items.map((i,n)=>`<article tabindex="0" data-tip="${esc(tipOf(i,id))}" style="--i:${Math.min(n,14)}" class="card k-${i.k||"neutral"} ${i.p?"pend":""} ${id==="noticias"?"news":""}"><div class="label">${esc(i.l)}</div><div class="value">${esc(i.v)}</div>${id!=="noticias"?`<div class="${i.c&&!i.p?i.k:"neutral"}">${i.c?esc(i.c):"Variação indisponível"}</div>`:(i.c?`<div class="${i.k}">${esc(i.c)}</div>`:"")}<div class="small">${esc(i.s)}</div>${i.p?'<span class="badge">dado pendente</span>':""}${i.d1?'<span class="badge">D-1</span>':""}</article>`).join(""):'<div class="empty">Nenhum resultado para esta busca ou filtro.<br><button data-reset class="reset">Limpar busca e filtros</button></div>';
+ const rb=g.querySelector("[data-reset]");if(rb)rb.onclick=()=>{qs[id]="";state[id]=filters[id][0];s.querySelector(".q").value="";draw(id)};
+ if(id==="dashboard")mountChart(g,cur);
+}
+function render(id){
+ if(!data[id])id="dashboard";
+ document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id==="view-"+id));
+ const gr=groupOf(id);lastSub[gr[0]]=id;
+  document.body.dataset.skin=(gr[0]==="ativos"||gr[0]==="macro")?"si":"";
+  const cr=document.querySelector("#view-"+id+" .crumb");if(cr)cr.innerHTML="HOME <i>›</i> "+gr[1].replace(/^\S+\s/,"").toUpperCase()+" <i>›</i> <b>"+TITLE[id].toUpperCase()+"</b>";
+  document.querySelectorAll("#nav button").forEach(b=>{const on=b.dataset.group===gr[0];b.classList.toggle("active",on);b.setAttribute("aria-current",on?"page":"false")});
+  subnav.hidden=gr[2].length<2;
+  subnav.innerHTML=gr[2].length<2?"":gr[2].map(v=>`<button data-view="${v}" aria-current="${v===id?"page":"false"}" class="${v===id?"active":""}">${TITLE[v]}</button>`).join("");
+ draw(id);store.set("marketView",id);try{if(location.hash!=="#"+id)history.replaceState(null,"","#"+id)}catch(e){}scrollTo({top:0,behavior:"smooth"});
+}
+nav.addEventListener("click",e=>{const b=e.target.closest("button[data-group]");if(!b)return;const g=GROUPS.find(x=>x[0]===b.dataset.group);render(lastSub[g[0]]||g[2][0])});
+subnav.addEventListener("click",e=>{const b=e.target.closest("button[data-view]");if(b)render(b.dataset.view)});
+document.getElementById("refresh").onclick=()=>{const b=document.getElementById("refresh");render(store.get("marketView")||"dashboard");b.textContent="✓";b.classList.add("spin");setTimeout(()=>{b.textContent="↻";b.classList.remove("spin")},900)};
+const tb=document.getElementById("theme");
+function setTheme(t){document.documentElement.dataset.theme=t;tb.textContent=t==="light"?"☀":"☾";store.set("marketTheme",t)}
+tb.onclick=()=>setTheme(document.documentElement.dataset.theme==="light"?"dark":"light");
+setTheme(store.get("marketTheme")||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"));
+render((data[location.hash.slice(1)]?location.hash.slice(1):null)||store.get("marketView")||"dashboard");
+addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(data[h]&&h!==store.get("marketView"))render(h)});
+
+/* ===== Resumo em áudio (Web Speech API) ===== */
+const BRIEF_DATA="22 de outubro de 2026",BRIEF_FECH="22 de outubro";
+function speakable(t){return t.replace(/US\$\s?(\d+(?:[.,]\d+)*)/g,"$1 dólares").replace(/R\$\s?(\d+(?:[.,]\d+)*)/g,"$1 reais").replace(/p\.p\./g,"pontos percentuais").replace(/\bpb\b/g,"pontos-base").replace(/%/g," por cento").replace(/(\d{1,2})\/10/g,"$1 de outubro").replace(/\s·\s/g,", ").replace(/\bIPCA\b/g,"I P C A").replace(/\bCPI\b/g,"C P I").replace(/\bBCE\b/g,"B C E")}
+function briefSentences(){
+ const T=Object.fromEntries(TAPE.filter(t=>!/^(Ibex|BOVA|IFIX|IPCA)/.test(t[0])).map(t=>[t[0].split(" · ")[0],t])),DT=k=>T[k]&&T[k][0].includes("·")?" em "+T[k][0].split(" · ")[1]:"",dir=c=>c.startsWith("-")?"queda de "+c.slice(1):"alta de "+c.replace("+",""),o=[];
+ o.push(`Resumo do dia, ${BRIEF_DATA}. Dados de fechamento de ${BRIEF_FECH}.`);
+ const f=(k,fn)=>{if(T[k])o.push(fn(T[k][1],dir(T[k][2])))};
+ f("Ibovespa",(v,d)=>`O Ibovespa fechou em ${v} pontos, com ${d}.`);
+ f("USD/BRL",(v,d)=>`O dólar fechou a ${v} reais, com ${d}.`);
+ f("S&P 500",(v,d)=>`Em Nova York, o S&P 500 fechou em ${v} pontos, com ${d}.`);
+ f("Nasdaq",(v,d)=>`O Nasdaq terminou em ${v} pontos, com ${d}.`);
+ f("Dow",(v,d)=>`O Dow Jones fechou em ${v} pontos, com ${d}.`);
+ f("Brent",(v,d)=>`O petróleo Brent fechou${DT("Brent")} a ${v} o barril, com ${d}.`);
+ f("Treasury 10Y",(v,d)=>`O juro do Treasury de 10 anos ficou${DT("Treasury 10Y")} em ${v}.`);
+ o.push("Na economia brasileira, o IPCA de setembro subiu 0,82%, e acumula 4,58% em 12 meses, acima do teto da meta. Nos Estados Unidos, o CPI de setembro subiu 0,6%, e 3,7% em 12 meses, acima do esperado.");
+ (data.noticias||[]).slice(0,4).forEach(i=>o.push(`Notícia, ${i.l}: ${i.v}. ${tipOf(i,"noticias")}`));
+ const t0=new Date();t0.setHours(0,0,0,0);
+ const ev=(data.agenda||[]).map(i=>({l:i.l,d:Math.round((new Date(i.ev+"T00:00:00")-t0)/864e5)})).filter(i=>i.d>=0).sort((a,b)=>a.d-b.d).slice(0,3);
+ if(ev.length)o.push("Na agenda: "+ev.map(i=>(i.d===0?"hoje":i.d===1?"amanhã":"em "+i.d+" dias")+", "+i.l).join("; ")+".");
+ const pf=(data.predicoes||[]).find(i=>i.l.includes("Flávio")),pl=(data.predicoes||[]).find(i=>i.l.includes("Lula"));
+ if(pf&&pl)o.push(`Nos mercados de previsão do Polymarket, Flávio Bolsonaro aparece com ${pf.v} de chance no segundo turno, e Lula com ${pl.v}.`);
+ o.push("Fim do resumo. Conteúdo informativo, sem recomendação de investimento.");
+ return o}
+const SYN=window.speechSynthesis,AU={q:[],i:0,on:false,paused:false,rate:1,tok:0},RATES=[1,1.25,1.5,0.85];
+const aud=document.createElement("div");aud.id="aud";aud.hidden=true;aud.setAttribute("role","region");aud.setAttribute("aria-label","Resumo em áudio");
+aud.innerHTML='<div class="aud-top"><b>🔊 Resumo do dia</b><span class="aud-step"></span></div><p class="aud-txt" aria-live="polite"></p><div class="aud-bar"><i></i></div><div class="aud-ctl"><button data-a="prev" aria-label="Frase anterior">⏮</button><button data-a="play" aria-label="Pausar">⏸</button><button data-a="next" aria-label="Próxima frase">⏭</button><button data-a="rate" aria-label="Velocidade">1×</button><button data-a="stop" aria-label="Fechar">✕</button></div>';
+document.body.appendChild(aud);
+const audBtn=document.getElementById("audioBtn");
+function auShow(){aud.hidden=false;aud.querySelector(".aud-txt").textContent=AU.q[AU.i]||"";aud.querySelector(".aud-step").textContent=(AU.i+1)+" / "+AU.q.length;aud.querySelector(".aud-bar i").style.width=((AU.i+1)/AU.q.length*100)+"%"}
+function auPlayIcon(p){const b=aud.querySelector("[data-a=play]");b.textContent=p?"▶":"⏸";b.setAttribute("aria-label",p?"Continuar":"Pausar")}
+function auSpeak(){if(!AU.on||AU.paused)return;if(AU.i>=AU.q.length){auStop();return}auShow();const my=++AU.tok,u=new SpeechSynthesisUtterance(speakable(AU.q[AU.i]));u.lang="pt-BR";u.rate=AU.rate;const vs=SYN.getVoices(),v=vs.find(x=>/pt[-_]BR/i.test(x.lang))||vs.find(x=>/^pt/i.test(x.lang));if(v)u.voice=v;u.onend=()=>{if(my===AU.tok&&AU.on&&!AU.paused){AU.i++;auSpeak()}};SYN.speak(u)}
+function auStart(){AU.q=briefSentences();AU.i=0;if(!SYN){aud.hidden=false;aud.querySelector(".aud-txt").textContent="Seu navegador não oferece leitura em voz. Resumo: "+AU.q.join(" ");aud.querySelector(".aud-ctl").hidden=true;return}aud.querySelector(".aud-ctl").hidden=false;SYN.cancel();AU.on=true;AU.paused=false;auPlayIcon(false);auSpeak();audBtn.setAttribute("aria-pressed","true")}
+function auStop(){AU.on=false;AU.paused=false;AU.tok++;if(SYN)SYN.cancel();aud.hidden=true;audBtn.setAttribute("aria-pressed","false")}
+function auJump(d){if(!AU.on)return;AU.tok++;SYN.cancel();AU.i=Math.max(0,Math.min(AU.q.length-1,AU.i+d));AU.paused=false;auPlayIcon(false);auSpeak()}
+function auToggle(){if(!AU.on)return;if(AU.paused){AU.paused=false;auPlayIcon(false);auSpeak()}else{AU.paused=true;AU.tok++;SYN.cancel();auPlayIcon(true)}}
+audBtn.onclick=()=>AU.on||!aud.hidden?auStop():auStart();
+aud.addEventListener("click",e=>{const b=e.target.closest("button[data-a]");if(!b)return;const a=b.dataset.a;if(a==="stop")auStop();else if(a==="play")auToggle();else if(a==="prev")auJump(-1);else if(a==="next")auJump(1);else if(a==="rate"){AU.rate=RATES[(RATES.indexOf(AU.rate)+1)%RATES.length];b.textContent=AU.rate+"×".replace(".",",");if(AU.on&&!AU.paused)auJump(0)}});
+addEventListener("pagehide",auStop);
+const hd=document.querySelector("header");addEventListener("scroll",()=>hd.classList.toggle("scrolled",scrollY>20),{passive:true});
+let rz;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(()=>{const v=document.getElementById("view-dashboard");if(v&&v.classList.contains("active"))draw("dashboard")},200)});
+</script></body></html>
