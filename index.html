@@ -273,14 +273,13 @@ body[data-skin=si] .desc{font-size:12px}body[data-skin=si] .small{margin-top:4px
 @keyframes growX{from{width:0!important}}@keyframes tipIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 @media(max-width:480px){.rkrow{grid-template-columns:20px minmax(80px,1fr) auto auto;gap:6px}.rkrow .bar,.rkrow .info{display:none}.rkrow .px{font-size:12px}}
 
-/* ===== Tooltips curtos nos cards (cards compactos) ===== */
-#gtip{position:fixed;z-index:60;left:0;top:0;max-width:min(280px,calc(100vw - 16px));background:#10223d;color:#fff;padding:8px 11px;border-radius:9px;font-size:12.5px;line-height:1.45;font-weight:500;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s;box-shadow:0 10px 28px rgba(0,0,0,.3)}
-#gtip.on{opacity:1;transform:none}
-:root[data-theme=dark] #gtip{background:#e8f0fb;color:#0b1a2e}
-.card[data-tip]{cursor:help}
+/* ===== Detalhes dos cards por toque e teclado ===== */
+.card-info{flex:0 0 28px;width:28px;min-height:28px;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--accent) 10%,var(--card));color:var(--accent);font:700 14px/1 system-ui,sans-serif;box-shadow:none}
+.card-info:hover{transform:none;border-color:var(--accent);background:color-mix(in srgb,var(--accent) 18%,var(--card));box-shadow:none}
+.card-info[aria-expanded=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.card-detail{margin:8px 0 2px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:color-mix(in srgb,var(--accent) 6%,var(--card));color:var(--muted);font-size:12px;line-height:1.5;white-space:normal}
+.card-detail[hidden]{display:none}
 .card .label{display:flex;align-items:center;justify-content:space-between;gap:6px}
-.card .label::after{content:"ⓘ";font-size:11px;opacity:.5;font-weight:400;letter-spacing:0}
-body[data-skin=si] .card .label::after{content:"?";margin-left:auto}
 .card{padding-bottom:8px}.small{margin-top:3px}
 body[data-skin=si] .grid{overflow:visible}
 
@@ -558,13 +557,6 @@ function tipOf(i,id){const max=id==="noticias"?150:110;let t=(i.d||"").replace(/
  if(!t)return i.l+" — "+i.v+(i.c&&!i.p?", "+i.c:"")+" · "+i.s;
  const ss=t.split(/(?<=[.!?])\s+/);let out="";for(const x of ss){if((out+" "+x).trim().length<=max)out=(out+" "+x).trim();else break}
  if(!out)out=ss[0].slice(0,max-1).replace(/\s+\S*$/,"")+"…";return out}
-const gt=document.createElement("div");gt.id="gtip";gt.setAttribute("role","tooltip");document.body.appendChild(gt);
-function showTip(el){const t=el.dataset.tip;if(!t)return;gt.textContent=t;gt.classList.add("on");const r=el.getBoundingClientRect(),w=gt.offsetWidth,h=gt.offsetHeight;let x=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2)),y=r.top-h-8;if(y<8)y=r.bottom+8;gt.style.left=x+"px";gt.style.top=y+"px"}
-function hideTip(){gt.classList.remove("on")}
-document.addEventListener("pointerover",e=>{const c=e.target.closest(".card[data-tip]");if(c)showTip(c)});
-document.addEventListener("pointerout",e=>{if(e.pointerType==="touch")return;if(e.target.closest(".card[data-tip]"))hideTip()});
-document.addEventListener("focusin",e=>{const c=e.target.closest(".card[data-tip]");if(c)showTip(c)});
-document.addEventListener("focusout",hideTip);addEventListener("scroll",hideTip,{passive:true});
 function draw(id){
  const s=document.getElementById("view-"+id),f=s.querySelector(".filters"),g=s.querySelector(".grid"),cur=state[id]||filters[id][0];
  f.innerHTML="";
@@ -604,7 +596,8 @@ function draw(id){
   g.innerHTML=h;
   g.querySelectorAll(".qr.x").forEach(r=>{const go=()=>r.classList.toggle("open");r.onclick=go;r.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
   return}
- g.innerHTML=items.length?items.map((i,n)=>`<article tabindex="0" data-tip="${esc(tipOf(i,id))}" style="--i:${Math.min(n,14)}" class="card k-${i.k||"neutral"} ${i.p?"pend":""} ${id==="noticias"?"news":""}"><div class="label">${esc(i.l)}</div><div class="value">${esc(i.v)}</div>${id!=="noticias"?`<div class="${i.c&&!i.p?i.k:"neutral"}">${i.c?esc(i.c):"Variação indisponível"}</div>`:(i.c?`<div class="${i.k}">${esc(i.c)}</div>`:"")}<div class="small">${esc(i.s)}</div>${i.p?'<span class="badge">dado pendente</span>':""}${i.d1?'<span class="badge">D-1</span>':""}</article>`).join(""):'<div class="empty">Nenhum resultado para esta busca ou filtro.<br><button data-reset class="reset">Limpar busca e filtros</button></div>';
+  g.innerHTML=items.length?items.map((i,n)=>`<article style="--i:${Math.min(n,14)}" class="card k-${i.k||"neutral"} ${i.p?"pend":""} ${id==="noticias"?"news":""}"><div class="label"><span>${esc(i.l)}</span><button type="button" class="card-info" aria-expanded="false" aria-controls="detail-${id}-${n}" aria-label="Mostrar detalhes de ${esc(i.l)}" data-label="${esc(i.l)}" title="Mostrar detalhes">i</button></div><div class="value">${esc(i.v)}</div>${id!=="noticias"?`<div class="${i.c&&!i.p?i.k:"neutral"}">${i.c?esc(i.c):"Variação indisponível"}</div>`:(i.c?`<div class="${i.k}">${esc(i.c)}</div>`:"")}<div class="small">${esc(i.s)}</div><div id="detail-${id}-${n}" class="card-detail" hidden>${esc(i.d||tipOf(i,id))}</div>${i.p?'<span class="badge">dado pendente</span>':""}${i.d1?'<span class="badge">D-1</span>':""}</article>`).join(""):'<div class="empty">Nenhum resultado para esta busca ou filtro.<br><button data-reset class="reset">Limpar busca e filtros</button></div>';
+  g.querySelectorAll(".card-info").forEach(b=>b.onclick=()=>{const d=document.getElementById(b.getAttribute("aria-controls")),open=d.hidden;d.hidden=!open;b.setAttribute("aria-expanded",String(open));b.setAttribute("aria-label",`${open?"Ocultar":"Mostrar"} detalhes de ${b.dataset.label}`);b.title=open?"Ocultar detalhes":"Mostrar detalhes"});
  const rb=g.querySelector("[data-reset]");if(rb)rb.onclick=()=>{qs[id]="";state[id]=filters[id][0];s.querySelector(".q").value="";draw(id)};
  if(id==="dashboard")mountChart(g,cur);
 }
