@@ -256,7 +256,7 @@ body[data-skin=si] .desc{font-size:12px}body[data-skin=si] .small{margin-top:4px
 .rkcol h3{margin:0 8px 6px;font-size:14px;letter-spacing:.03em;text-transform:uppercase}
 .rkcol.s-up h3{color:var(--up)}.rkcol.s-down h3{color:var(--down)}
 .rkcol ol{list-style:none;margin:0;padding:0}
-.rkrow{position:relative;display:grid;grid-template-columns:22px minmax(86px,1.1fr) minmax(40px,1fr) auto auto 14px;align-items:center;gap:8px;padding:9px 8px;border-top:1px solid var(--line);border-radius:8px;cursor:help;outline-offset:-2px;transition:background .2s}
+.rkrow{position:relative;display:grid;grid-template-columns:22px minmax(86px,1.1fr) minmax(40px,1fr) auto auto 30px;align-items:center;gap:8px;padding:9px 8px;border-top:1px solid var(--line);border-radius:8px;transition:background .2s}
 .rkrow:first-child{border-top:0}.rkrow:hover,.rkrow:focus{background:color-mix(in srgb,var(--accent) 7%,transparent)}
 .rkrow .pos{font-size:12px;font-weight:700;color:var(--muted);text-align:center}
 .rkrow .who b{display:block;font-size:14px}.rkrow .who small{display:block;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -266,12 +266,13 @@ body[data-skin=si] .desc{font-size:12px}body[data-skin=si] .small{margin-top:4px
 .rkrow .px{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
 .rkrow .chg{font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;min-width:62px;text-align:right}
 .rkrow .chg.c-up{color:var(--up)}.rkrow .chg.c-down{color:var(--down)}
-.rkrow .info{font-size:12px;color:var(--muted);opacity:.7}
-.rkrow .tipbox{display:none;position:absolute;left:8px;right:8px;top:calc(100% - 2px);z-index:6;background:#10223d;color:#fff;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.5;box-shadow:0 12px 30px rgba(0,0,0,.28);font-weight:400}
-:root[data-theme=dark] .rkrow .tipbox{background:#e8f0fb;color:#0b1a2e}
-.rkrow:hover .tipbox,.rkrow:focus .tipbox,.rkrow:focus-within .tipbox{display:block;animation:tipIn .18s ease both}
+.rk-info{width:28px;min-height:28px;padding:0;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--accent) 10%,var(--card));color:var(--accent);font-weight:700;box-shadow:none}
+.rk-info:hover{transform:none;border-color:var(--accent);box-shadow:none}
+.rk-info[aria-expanded=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.rkrow .tipbox{grid-column:2/-1;background:color-mix(in srgb,var(--accent) 6%,var(--card));color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.5;font-weight:400}
+.rkrow .tipbox[hidden]{display:none}
 @keyframes growX{from{width:0!important}}@keyframes tipIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-@media(max-width:480px){.rkrow{grid-template-columns:20px minmax(80px,1fr) auto auto;gap:6px}.rkrow .bar,.rkrow .info{display:none}.rkrow .px{font-size:12px}}
+@media(max-width:480px){.rkrow{grid-template-columns:20px minmax(80px,1fr) auto auto 30px;gap:6px}.rkrow .bar{display:none}.rkrow .px{font-size:12px}}
 
 /* ===== Detalhes dos cards por toque e teclado ===== */
 .card-info{flex:0 0 28px;width:28px;min-height:28px;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--accent) 10%,var(--card));color:var(--accent);font:700 14px/1 system-ui,sans-serif;box-shadow:none}
@@ -571,8 +572,9 @@ function draw(id){
   if(id==="empresas")s.querySelector(".date").textContent="Últimos resultados listados: 2T26 · atualização consultada em 22/10/2026; nenhum resultado 3T26 dessas empresas foi confirmado nas fontes consultadas";
  if(id==="fundos")s.querySelector(".date").textContent="Cotações de ETFs: fechamentos de 22/10/2026 quando disponíveis; fundos de investimento mantêm a data de referência indicada em cada card";
  if(id==="ranking"){s.querySelector(".date").textContent="Ranking histórico: fechamento de 13/10/2026 · não representa o pregão atual · fonte indicada na análise";
-  const note='<div class="rk-note" style="grid-column:1/-1"><b>Por que o Ibovespa caiu 1,04%?</b> Realização de lucros após o recorde, juros futuros em alta (DIs subiram mais de 20 pb) e pesquisas de empate técnico no 2º turno. Outras ações também caíram mais de 5%: C&A (-5,96%), Localiza (-5,72%), Natura (-5,50%) e Cosan (-5,37%). <span>Passe o mouse ou toque em uma linha para ver o motivo.</span></div>';
-  g.innerHTML=note+'<div class="rkwrap">'+items.map((c,n)=>{const mx=Math.max(...c.rows.map(r=>Math.abs(r[3])));return `<section class="rkcol s-${c.side}" style="--i:${n}"><h3>${c.side==="up"?"▲":"▼"} ${esc(c.l)}</h3><ol>${c.rows.map((r,k)=>`<li class="rkrow" tabindex="0" aria-label="${esc(r[0])}: ${esc(r[4])}"><span class="pos">${k+1}</span><div class="who"><b>${esc(r[0])}</b><small>${esc(r[1])}</small></div><div class="bar"><i style="width:${Math.max(6,Math.abs(r[3])/mx*100)}%"></i></div><div class="px">${esc(r[2])}</div><div class="chg c-${c.side}">${r[3]>0?"+":""}${fmtBR(r[3],2)}%</div><span class="info" aria-hidden="true">ⓘ</span><div class="tipbox" role="tooltip">${esc(r[4])}</div></li>`).join("")}</ol></section>`}).join("")+'</div>';return}
+   const note='<div class="rk-note" style="grid-column:1/-1"><b>Por que o Ibovespa caiu 1,04%?</b> Realização de lucros após o recorde, juros futuros em alta (DIs subiram mais de 20 pb) e pesquisas de empate técnico no 2º turno. Outras ações também caíram mais de 5%: C&A (-5,96%), Localiza (-5,72%), Natura (-5,50%) e Cosan (-5,37%). <span>Toque no ícone de informação para ver o motivo.</span></div>';
+   g.innerHTML=note+'<div class="rkwrap">'+items.map((c,n)=>{const mx=Math.max(...c.rows.map(r=>Math.abs(r[3])));return `<section class="rkcol s-${c.side}" style="--i:${n}"><h3>${c.side==="up"?"▲":"▼"} ${esc(c.l)}</h3><ol>${c.rows.map((r,k)=>`<li class="rkrow"><span class="pos">${k+1}</span><div class="who"><b>${esc(r[0])}</b><small>${esc(r[1])}</small></div><div class="bar"><i style="width:${Math.max(6,Math.abs(r[3])/mx*100)}%"></i></div><div class="px">${esc(r[2])}</div><div class="chg c-${c.side}">${r[3]>0?"+":""}${fmtBR(r[3],2)}%</div><button type="button" class="rk-info" aria-expanded="false" aria-controls="rank-tip-${n}-${k}" aria-label="Mostrar motivo da variação de ${esc(r[0])}">i</button><div id="rank-tip-${n}-${k}" class="tipbox" hidden>${esc(r[4])}</div></li>`).join("")}</ol></section>`}).join("")+'</div>';
+   g.querySelectorAll(".rk-info").forEach(b=>b.onclick=()=>{const d=document.getElementById(b.getAttribute("aria-controls")),open=d.hidden;d.hidden=!open;b.setAttribute("aria-expanded",String(open));const ticker=b.getAttribute("aria-label").replace(/^.* de /,"");b.setAttribute("aria-label",`${open?"Ocultar":"Mostrar"} motivo da variação de ${ticker}`)});return}
  if(id==="pib"&&items.length){
   s.querySelector(".date").textContent="Composição do PIB por setor · Banco Mundial · % do PIB";
   const f=v=>fmtBR(v,1)+"%",C=2*Math.PI*78;
