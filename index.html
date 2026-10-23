@@ -1,6 +1,6 @@
 <!doctype html><html lang="pt-BR"><head>
 <meta charset="utf-8"><meta name="theme-color" content="#0a2a5e"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><title>Rafael Market Terminal — 22/10/2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><title>Rafael Market Terminal — 23/10/2026</title>
 <style>
 :root{--bg:#0a0f1e;--bg2:#101936;--hdr:rgba(10,15,30,.72);--card:#131b30;--card2:#18223d;--text:#f2f6fc;--muted:#8d9bb5;--line:#232f4d;--accent:#5b8dff;--accent2:#9b6bff;--up:#2dd47a;--down:#ff5f7e;--warn:#f5b84b;--shadow:0 10px 30px rgba(0,0,0,.35);--ease:cubic-bezier(.22,.8,.3,1)}
 :root[data-theme=light]{--bg:#f3f6fb;--bg2:#e6ecfb;--hdr:rgba(243,246,251,.78);--card:#fff;--card2:#f7f9fd;--text:#162038;--muted:#5c6b86;--line:#dbe3f0;--up:#0f9d58;--down:#d93654;--warn:#b7791f;--shadow:0 10px 28px rgba(40,60,110,.12)}
@@ -344,7 +344,7 @@ body[data-skin=si] .grid{overflow:visible}
 body .hero .actions .audbtn{margin:0;padding:0;gap:0;justify-content:center;width:44px;height:44px;border-radius:50%;font-size:19px}@media(min-width:701px){body .hero .actions .audbtn{width:38px;height:38px;font-size:17px}}@media(max-width:480px){body .hero .actions .audbtn{width:40px;height:40px}}
 </style></head><body>
 <a class="skip" href="#main">Pular para o conteúdo</a><noscript><p style="padding:16px">Ative o JavaScript para ver o painel.</p></noscript>
-<header class="hero-wrap"><div class="hero"><div class="wrap"><div class="top"><div><span class="tag">Atualizado em 22/10/2026</span>
+<header class="hero-wrap"><div class="hero"><div class="wrap"><div class="top"><div><span class="tag">Atualizado em 23/10/2026</span>
 <h1>Freakonomics</h1>
 <p>Bolsa, câmbio, juros, ETFs, fundos, empresas, notícias e mercados de previsão em um só painel · Brasil, EUA e Europa.</p></div>
 <div class="actions"><button id="audioBtn" class="audbtn" type="button" title="Ouvir resumo do dia" aria-label="Ouvir resumo em áudio das principais notícias e índices do dia">🔊</button><button id="refresh" aria-label="Atualizar" title="Atualizar">↻</button><button id="theme" aria-label="Alternar tema" title="Alternar claro/escuro">☾</button></div></div></div></div>
@@ -363,21 +363,21 @@ const PREV_LABEL="Último fechamento disponível";
 const P=(l,t,d)=>{const o=prev[l];return o?{l,v:o.v,c:o.c||"",k:o.k||"neutral",s:o.s||PREV_LABEL,t,d,d1:o.d1||0}:{l,v:"—",c:"Variação indisponível",k:"neutral",s:"Feed de mercado pendente",t,d,p:1}};
 const data={
 dashboard:[
-{l:"Ibovespa",v:"204.120,12",c:"-1,15%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Brasil"]},
-{l:"Dólar/BRL",v:"R$ 5,038",c:"+0,22%",k:"up",s:"Fechamento 22/10 · Poder360",t:["Brasil","Câmbio"]},
-{l:"S&P 500",v:"7.663,43",c:"-1,21%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
-{l:"Nasdaq",v:"26.008,86",c:"-2,60%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
-{l:"Dow Jones",v:"52.867,98",c:"+0,02%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Ibovespa",v:"205.083,00",c:"+0,47%",k:"up",s:"Fechamento 23/10 · UOL",t:["Brasil"]},
+{l:"Dólar/BRL",v:"R$ 4,993",c:"-0,90%",k:"down",s:"Fechamento 23/10 · UOL",t:["Brasil","Câmbio"]},
+{l:"S&P 500",v:"7.623,68",c:"-0,52%",k:"down",s:"Fechamento 23/10 · UOL / AP",t:["EUA"]},
+{l:"Nasdaq",v:"25.955,34",c:"-0,21%",k:"down",s:"Fechamento 23/10 · UOL / AP",t:["EUA"]},
+{l:"Dow Jones",v:"52.215,16",c:"-1,23%",k:"down",s:"Fechamento 23/10 · UOL / AP",t:["EUA"]},
 {l:"Selic",v:"13,75% a.a.",c:"vigente",k:"neutral",s:"Último dado: 07/10",t:["Brasil","Juros"]},
 {l:"Brent",v:"US$ 113,23",c:"+4,05%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["Commodities"]},
 {l:"Ouro",v:"US$ 4.037,00",c:"-2,72%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Commodities"]},
 {l:"Treasury 10Y",v:"4,95%",c:"-19 pb vs. 21/10",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA","Juros"]}],
 bolsa:[
-{l:"Ibovespa",v:"204.120,12",c:"-1,15%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["Brasil"]},
-{l:"S&P 500",v:"7.663,43",c:"-1,21%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
-{l:"Nasdaq",v:"26.008,86",c:"-2,60%",k:"down",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
-{l:"Dow Jones",v:"52.867,98",c:"+0,02%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
-{l:"Russell 2000",v:"2.784,03",c:"+0,11%",k:"up",s:"Fechamento 22/10 · Yahoo Finance",t:["EUA"]},
+{l:"Ibovespa",v:"205.083,00",c:"+0,47%",k:"up",s:"Fechamento 23/10 · UOL",t:["Brasil"]},
+{l:"S&P 500",v:"7.623,68",c:"-0,52%",k:"down",s:"Fechamento 23/10 · UOL / AP",t:["EUA"]},
+{l:"Nasdaq",v:"25.955,34",c:"-0,21%",k:"down",s:"Fechamento 23/10 · UOL / AP",t:["EUA"]},
+{l:"Dow Jones",v:"52.215,16",c:"-1,23%",k:"down",s:"Fechamento 23/10 · UOL / AP",t:["EUA"]},
+{l:"Russell 2000",v:"2.775,90",c:"-0,29%",k:"down",s:"Fechamento 23/10 · AP",t:["EUA"]},
 {l:"Ibex 35 (Espanha)",v:"19.323,50",c:"+1,21%",k:"up",s:"Último fechamento: 21/10 · Yahoo Finance",t:["Europa","Espanha"]},
 {l:"Stoxx 600",v:"644,49",c:"+0,78%",k:"up",s:"Último fechamento: 21/10 · Yahoo Finance",t:["Europa"]},
 {l:"Nikkei 225",v:"64.621,24",c:"+0,85%",k:"up",s:"Último fechamento: 21/10 · Yahoo Finance",t:["Ásia"]}],
@@ -488,14 +488,14 @@ const state={},nav=document.getElementById("nav"),main=document.getElementById("
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 var qs={};
-sections.forEach(([id,t])=>{main.insertAdjacentHTML("beforeend",`<section class="view" id="view-${id}"><div class="crumb"></div><h2>${t}</h2><div class="date">Atualização da base: 22/10/2026 · cada item informa a data e a fonte do dado; quando não foi possível verificar um valor mais recente, a última referência está identificada</div><div class="filters" role="group" aria-label="Filtros"></div><div class="tools"><input type="search" class="q" placeholder="Buscar nesta aba…" aria-label="Buscar nesta aba"><span class="count" aria-live="polite"></span></div><div class="grid"></div></section>`)});
+sections.forEach(([id,t])=>{main.insertAdjacentHTML("beforeend",`<section class="view" id="view-${id}"><div class="crumb"></div><h2>${t}</h2><div class="date">Atualização da base: 23/10/2026 · cada item informa a data e a fonte do dado; quando não foi possível verificar um valor mais recente, a última referência está identificada</div><div class="filters" role="group" aria-label="Filtros"></div><div class="tools"><input type="search" class="q" placeholder="Buscar nesta aba…" aria-label="Buscar nesta aba"><span class="count" aria-live="polite"></span></div><div class="grid"></div></section>`)});
 document.querySelectorAll(".view").forEach(v=>{const id=v.id.slice(5),q=v.querySelector(".q");q.oninput=()=>{qs[id]=q.value;draw(id)}});
 const GROUPS=[["dashboard","📊 Visão geral",["dashboard"]],["ativos","📈 Ativos",["bolsa","ranking","etfs","fundos","empresas"]],["macro","🌎 Macro e câmbio",["pib","cambio","juros","commodities","agenda"]],["noticias","📰 Notícias",["noticias"]],["predicoes","🎯 Prediction",["predicoes"]]];
 const TITLE=Object.fromEntries(sections),subnav=document.getElementById("subnav"),lastSub={};
 const groupOf=id=>GROUPS.find(g=>g[2].includes(id))||GROUPS[0];
 const SHORT={dashboard:"Visão geral",ativos:"Ativos",macro:"Macro",noticias:"Notícias",predicoes:"Prediction"};
 nav.innerHTML=GROUPS.map(g=>{const [ic,...r]=g[1].split(" ");return `<button data-group="${g[0]}" aria-current="false"><span class="ic" aria-hidden="true">${ic}</span><span class="tx l">${r.join(" ")}</span><span class="tx s">${SHORT[g[0]]}</span></button>`}).join("");
-const TAPE=[["Ibovespa","204.120,12","-1,15%","down"],["USD/BRL","5,038","+0,22%","up"],["S&P 500","7.663,43","-1,21%","down"],["Nasdaq","26.008,86","-2,60%","down"],["Dow","52.867,98","+0,02%","up"],["Brent · 22/10","US$ 113,23","+4,05%","up"],["Treasury 10Y · 22/10","4,953%","-19 pb","down"],["IPCA 12m","4,58%","set/26","up"],["Ibex 35 · 21/10","19.323,50","+1,21%","up"],["BOVA11 · 22/10","200,96","-1,25%","down"]];
+const TAPE=[["Ibovespa","205.083,00","+0,47%","up"],["USD/BRL","4,993","-0,90%","down"],["S&P 500","7.623,68","-0,52%","down"],["Nasdaq","25.955,34","-0,21%","down"],["Dow","52.215,16","-1,23%","down"],["Brent · 22/10","US$ 113,23","+4,05%","up"],["Treasury 10Y · 22/10","4,953%","-19 pb","down"],["IPCA 12m","4,58%","set/26","up"],["Ibex 35 · 21/10","19.323,50","+1,21%","up"],["BOVA11 · 22/10","200,96","-1,25%","down"]];
 const tp=TAPE.map(t=>`<span><b>${t[0]}</b>${t[1]} <em class="${t[3]}" style="font-style:normal">${t[2]}</em></span>`).join("");document.getElementById("tape").innerHTML=tp+tp;
 const isAll=f=>/^(Todos|Todas|Resumo)$/.test(f);
 
@@ -506,13 +506,13 @@ const USD10=[5.0370,5.0227,5.0204,5.0380];
 const DASH={"Resumo":[["Brasil",["m_usd","m_ibov"]],["EUA",["m_sp","m_ust"]],["Commodities",["m_brent"]],["Inflação e juros",["m_ipca","m_selic"]]]};
 const CH={
 "Câmbio":{t:"Dólar e euro frente ao real (R$)",sub:"Cotações de 19/10 a 22/10 · Yahoo Finance; USD/BRL de fechamento do mercado local em 22/10",L:["19/10","20/10","21/10","22/10"],f:v=>"R$ "+fmtBR(v,4),S:[{n:"USD/BRL",d:[5.0370,5.0227,5.0204,5.0523]},{n:"EUR/BRL",d:[5.6465,5.6370,5.6402,5.6682]}]},
-"EUA":{t:"Wall Street — S&P 500, Nasdaq e Dow",sub:"Fechamentos de 16/10 a 22/10 · Yahoo Finance",L:["16/10","19/10","20/10","21/10","22/10"],norm:1,f:v=>fmtBR(v,2),S:[{n:"S&P 500",d:[7659.44,7690.73,7712.57,7757.17,7663.43]},{n:"Nasdaq",d:[26140.03,26430.89,26424.82,26702.86,26008.86]},{n:"Dow Jones",d:[52002.41,51966.03,52495.88,52856.09,52867.98]}]},
+"EUA":{t:"Wall Street — S&P 500, Nasdaq e Dow",sub:"Fechamentos de 19/10 a 23/10 · AP / Yahoo Finance",L:["19/10","20/10","21/10","22/10","23/10"],norm:1,f:v=>fmtBR(v,2),S:[{n:"S&P 500",d:[7690.73,7712.57,7757.17,7663.43,7623.68]},{n:"Nasdaq",d:[26430.89,26424.82,26702.86,26008.86,25955.34]},{n:"Dow Jones",d:[51966.03,52495.88,52856.09,52867.98,52215.16]}]},
 "Juros":{t:"Treasury de 10 anos (%)",sub:"Fechamentos de 16/10 a 22/10 · Yahoo Finance",L:["16/10","19/10","20/10","21/10","22/10"],f:v=>fmtBR(v,2)+"%",S:[{n:"Treasury 10Y",d:[5.098,5.136,5.117,5.146,4.953]}]},
 "Inflação":{t:"Inflação do Brasil — IPCA ao longo dos anos (%)",sub:"IPCA acumulado no ano (IBGE), 2015 a 2025 · 2026*: acumulado em 12 meses até set/2026 (4,58%, acima do teto de 4,5%) · meta de inflação do CMN",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,2)+"%",S:[{n:"IPCA",d:[10.67,6.29,2.95,3.75,4.31,4.52,10.06,5.79,4.62,4.83,4.26,4.58]},{n:"Meta de inflação",d:[4.5,4.5,4.5,4.5,4.25,4.0,3.75,3.5,3.25,3.0,3.0,3.0]}]},
-"Ibovespa":{t:"Ibovespa — fechamento de cada ano (pontos)",sub:"B3, 2015 a 2025 · 2026*: fechamento de 22/10 (204.120)",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,0)+" pts",S:[{n:"Ibovespa",d:[43349.96,60227.28,76402.08,87887.27,115645.34,119017.24,104822.44,109734.60,134185.24,120283.40,161125.37,204120.12]}]},
+"Ibovespa":{t:"Ibovespa — fechamento de cada ano (pontos)",sub:"B3, 2015 a 2025 · 2026*: fechamento de 23/10 (205.083)",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,0)+" pts",S:[{n:"Ibovespa",d:[43349.96,60227.28,76402.08,87887.27,115645.34,119017.24,104822.44,109734.60,134185.24,120283.40,161125.37,205083.00]}]},
 "Selic":{t:"Selic — meta no fim de cada ano (% a.a.)",sub:"Fim de cada ano (Copom) · 2026*: nível atual de 13,75%",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,2)+"%",S:[{n:"Selic",d:[14.25,13.75,7.00,6.50,4.50,2.00,9.25,13.75,11.75,12.25,15.00,13.75]}]},
 "m_usd":{t:"Dólar (USD/BRL)",sub:"Cotações de 19/10 a 22/10 · último valor é fechamento do mercado local",L:["19/10","20/10","21/10","22/10"],f:v=>"R$ "+fmtBR(v,4),S:[{n:"USD/BRL",d:USD10}]},
-"m_ibov":{t:"Ibovespa (pontos)",sub:"Fechamento de cada ano · 2026*: 22/10",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,0)+" pts",S:[{n:"Ibovespa",d:[43349.96,60227.28,76402.08,87887.27,115645.34,119017.24,104822.44,109734.60,134185.24,120283.40,161125.37,204120.12]}]},
+"m_ibov":{t:"Ibovespa (pontos)",sub:"Fechamento de cada ano · 2026*: 23/10",L:["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026*"],f:v=>fmtBR(v,0)+" pts",S:[{n:"Ibovespa",d:[43349.96,60227.28,76402.08,87887.27,115645.34,119017.24,104822.44,109734.60,134185.24,120283.40,161125.37,205083.00]}]},
 "m_sp":{t:"S&P 500",sub:"Fechamento diário · 16/10 a 22/10",L:["16/10","19/10","20/10","21/10","22/10"],f:v=>fmtBR(v,2),S:[{n:"S&P 500",d:[7659.44,7690.73,7712.57,7757.17,7663.43]}]},
 "m_ust":{t:"Treasury de 10 anos (%)",sub:"Fechamento diário · 16/10 a 22/10",L:["16/10","19/10","20/10","21/10","22/10"],f:v=>fmtBR(v,2)+"%",S:[{n:"Treasury 10Y",d:[5.098,5.136,5.117,5.146,4.953]}]},
 "m_brent":{t:"Petróleo Brent (US$)",sub:"Fechamento diário · 19/10 a 22/10 · Yahoo Finance",L:["19/10","20/10","21/10","22/10"],f:v=>"US$ "+fmtBR(v,2),S:[{n:"Brent",d:[109.55,108.79,108.82,113.23]}]},
